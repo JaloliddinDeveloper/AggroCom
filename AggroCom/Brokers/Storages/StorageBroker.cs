@@ -1,4 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace AggroCom.Brokers.Storages
 {
@@ -15,7 +18,7 @@ namespace AggroCom.Brokers.Storages
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             string connection =
-                this.configuration.GetConnectionString("");
+                this.configuration.GetConnectionString("DefaultConnection");
 
             optionsBuilder.UseSqlServer(connection);
         }
