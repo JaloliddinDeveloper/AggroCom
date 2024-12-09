@@ -1,5 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AggroCom.Models.Orchestrations;
+using AggroCom.Services.Orchestrations.ProductOneTableOneOrchestrationServices;
+using Microsoft.AspNetCore.Mvc;
 using RESTFulSense.Controllers;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace AggroCom.Controllers
 {
@@ -7,8 +11,18 @@ namespace AggroCom.Controllers
     [Route("[controller]")]
     public class HomeController : RESTFulController
     {
-        [HttpGet]
-        public ActionResult<string> Get()=>
-            Ok("Hello,Mario.");
+      private readonly IProductOneTableOneOrchestrationService productOneTableOneOrchestrationService;
+
+        public HomeController(IProductOneTableOneOrchestrationService productOneTableOneOrchestrationService)
+        {
+            this.productOneTableOneOrchestrationService = productOneTableOneOrchestrationService;
+        }
+
+        [HttpGet("with-students")]
+        public async Task<IActionResult> GetAllGroupsWithStudentsAsync()
+        {
+            IQueryable<ProductOneTableOne> groupStudents = await this.productOneTableOneOrchestrationService.RetrieveAllProductOnesWithTableOnessAsync();
+            return Ok(groupStudents);
+        }
     }
 }

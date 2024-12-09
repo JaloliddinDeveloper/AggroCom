@@ -1,9 +1,13 @@
-﻿namespace AggroCom.Models.Foundations.ProductOnes
+﻿using System.Collections.Generic;
+using System.Text.Json.Serialization;
+
+namespace AggroCom.Models.Foundations.ProductOnes
 {
     public class ProductOne
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public IEnumerable<TablePOne> TablePOnes { get; set; }  
+        [JsonIgnore]
+        public List<TableOne> TableOnes { get; set; }  
     }
 }
