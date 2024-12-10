@@ -3,7 +3,6 @@ using RESTFulSense.Controllers;
 using System.Threading.Tasks;
 using System;
 using AggroCom.Models.Foundations.ProductOnes;
-using AggroCom.Brokers.Storages;
 using AggroCom.Services.Foundations.TableOnes;
 
 namespace AggroCom.Controllers
@@ -25,7 +24,11 @@ namespace AggroCom.Controllers
                 TableOne addTableOne = new TableOne
                 {
                     Id = TableOne.Id,
-                    Name = TableOne.Name,
+                    EkinTuri = TableOne.EkinTuri,
+                    BegonaQarshi = TableOne.BegonaQarshi,
+                    SarfMeyori=TableOne.SarfMeyori,
+                    Cheklovlar=TableOne.Cheklovlar,
+                    MavsumNechta=TableOne.MavsumNechta,
                     ProductOneId= TableOne.ProductOneId
                 };
 

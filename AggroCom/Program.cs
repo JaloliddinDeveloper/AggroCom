@@ -30,6 +30,8 @@ public class Program
 
         var app = builder.Build();
 
+        app.UseStaticFiles();
+
         if (app.Environment.IsDevelopment())
         {
             app.UseSwagger();
