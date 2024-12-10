@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AggroCom.Migrations
 {
     [DbContext(typeof(StorageBroker))]
-    [Migration("20241210174732_OneMigration")]
+    [Migration("20241210182435_OneMigration")]
     partial class OneMigration
     {
         /// <inheritdoc />
