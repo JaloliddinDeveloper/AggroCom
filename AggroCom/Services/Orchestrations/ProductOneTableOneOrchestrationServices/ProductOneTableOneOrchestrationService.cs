@@ -21,18 +21,37 @@ namespace AggroCom.Services.Orchestrations.ProductOneTableOneOrchestrationServic
             this.tableOneService = tableOneService;
         }
 
-        public async ValueTask<IQueryable<ProductOneTableOne>> RetrieveAllProductOnesWithTableOnessAsync()
+        public async ValueTask<IQueryable<ProductOneTableOne>> RetrieveProductOnesHerbicidesWithTableOnesAsync()
         {
-            var groups = (await this.productOneService.RetrieveAllProductOnesAsync()).ToList();
-            var students = (await this.tableOneService.RetrieveAllTableOnesAsync()).ToList();
+            var products = (await this.productOneService.RetrieveAllProductOnesAsync())
+                .Where(p => p.ProductType == ProductType.Гербицидлар).ToList();
 
-            var groupStudents = groups.Select(group => new ProductOneTableOne
+            var tableOnes = (await this.tableOneService.RetrieveAllTableOnesAsync()).ToList();
+
+            var result = products.Select(product => new ProductOneTableOne
             {
-                ProductOne = group,
-                TableOnes = students.Where(student => student.ProductOneId == group.Id).ToList()
+                ProductOne = product,
+                TableOnes = tableOnes.Where(t => t.ProductOneId == product.Id).ToList()
             });
 
-            return groupStudents.AsQueryable();
+            return result.AsQueryable();
         }
+
+        public async ValueTask<IQueryable<ProductOneTableOne>> RetrieveProductOnesFungicidesWithTableOnesAsync()
+        {
+            var products = (await this.productOneService.RetrieveAllProductOnesAsync())
+                .Where(p => p.ProductType == ProductType.Фунгицидлар).ToList();
+
+            var tableOnes = (await this.tableOneService.RetrieveAllTableOnesAsync()).ToList();
+
+            var result = products.Select(product => new ProductOneTableOne
+            {
+                ProductOne = product,
+                TableOnes = tableOnes.Where(t => t.ProductOneId == product.Id).ToList()
+            });
+
+            return result.AsQueryable();
+        }
+
     }
 }

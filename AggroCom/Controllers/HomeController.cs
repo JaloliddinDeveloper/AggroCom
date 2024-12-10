@@ -11,17 +11,32 @@ namespace AggroCom.Controllers
     [Route("[controller]")]
     public class HomeController : RESTFulController
     {
-      private readonly IProductOneTableOneOrchestrationService productOneTableOneOrchestrationService;
+      private readonly IProductOneTableOneOrchestrationService 
+            productOneTableOneOrchestrationService;
 
-        public HomeController(IProductOneTableOneOrchestrationService productOneTableOneOrchestrationService)
+        public HomeController(
+            IProductOneTableOneOrchestrationService productOneTableOneOrchestrationService)
         {
             this.productOneTableOneOrchestrationService = productOneTableOneOrchestrationService;
         }
 
-        [HttpGet("with-students")]
-        public async Task<IActionResult> GetAllGroupsWithStudentsAsync()
+        [HttpGet("ger")]
+        public async Task<IActionResult> GetHerbicidesWithTableOnes()
         {
-            IQueryable<ProductOneTableOne> groupStudents = await this.productOneTableOneOrchestrationService.RetrieveAllProductOnesWithTableOnessAsync();
+            IQueryable<ProductOneTableOne> groupStudents = 
+                await this.productOneTableOneOrchestrationService.
+                RetrieveProductOnesHerbicidesWithTableOnesAsync();
+
+            return Ok(groupStudents);
+        }
+
+        [HttpGet("fun")]
+        public async Task<IActionResult> GetFungicidesWithTableOnes()
+        {
+            IQueryable<ProductOneTableOne> groupStudents = 
+                await this.productOneTableOneOrchestrationService.
+                RetrieveProductOnesFungicidesWithTableOnesAsync();
+
             return Ok(groupStudents);
         }
     }
