@@ -5,7 +5,7 @@
 namespace AggroCom.Migrations
 {
     /// <inheritdoc />
-    public partial class OneMigrate : Migration
+    public partial class OneMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -16,7 +16,14 @@ namespace AggroCom.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Title = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    TasirModda = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    KimyoviySinfi = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PreparatShakli = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Qadogi = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ProductPicture = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ProductType = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -29,7 +36,11 @@ namespace AggroCom.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    EkinTuri = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    BegonaQarshi = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SarfMeyori = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Cheklovlar = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    MavsumNechta = table.Column<int>(type: "int", nullable: false),
                     ProductOneId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>

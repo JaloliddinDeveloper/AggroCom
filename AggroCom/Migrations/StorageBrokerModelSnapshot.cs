@@ -29,7 +29,28 @@ namespace AggroCom.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Name")
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("KimyoviySinfi")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PreparatShakli")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ProductPicture")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ProductType")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Qadogi")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TasirModda")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -45,11 +66,23 @@ namespace AggroCom.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Name")
+                    b.Property<string>("BegonaQarshi")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Cheklovlar")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("EkinTuri")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("MavsumNechta")
+                        .HasColumnType("int");
 
                     b.Property<int>("ProductOneId")
                         .HasColumnType("int");
+
+                    b.Property<string>("SarfMeyori")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
