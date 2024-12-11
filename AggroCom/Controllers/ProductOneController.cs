@@ -68,5 +68,19 @@ namespace AggroCom.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpDelete("{productOneId}")]
+        public async ValueTask<ActionResult<ProductOne>> DeleteProductOneByIdAsync(int productOneId)
+        {
+            try
+            {
+                return await this.productOneService.RemoveProductOneAsync(productOneId);
+            }
+
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }
