@@ -1,10 +1,11 @@
+using Microsoft.AspNetCore.HttpOverrides;
 using AggroCom.Brokers.Storages;
 using AggroCom.Services.Foundations.ProductOnes;
 using AggroCom.Services.Foundations.TableOnes;
 using AggroCom.Services.Orchestrations.ProductOneTableOneOrchestrationServices;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.DependencyInjection;
 
 public class Program
 {
@@ -12,48 +13,47 @@ public class Program
     {
         var builder = WebApplication.CreateBuilder(args);
 
-        RegisterServices(builder.Services);
+        builder.Services.AddControllers();
+
+        builder.Services.AddTransient<IStorageBroker, StorageBroker>();
+        builder.Services.AddTransient<IProductOneService, ProductOneService>();
+        builder.Services.AddTransient<ITableOneService, TableOneService>();
+        builder.Services.AddTransient<IProductOneTableOneOrchestrationService, ProductOneTableOneOrchestrationService>();
+
+
+        builder.Services.AddEndpointsApiExplorer();
+
+        builder.Services.AddSwaggerGen();
+
+        builder.Services.AddCors(options =>
+        {
+
+            options.AddPolicy("AllowAll", policy =>
+            {
+                policy.AllowAnyOrigin()
+                      .AllowAnyMethod()
+                      .AllowAnyHeader();
+            });
+        });
 
         var app = builder.Build();
 
-        ConfigureApp(app);
-    }
+        app.UseStaticFiles();
 
-    private static void RegisterServices(IServiceCollection services)
-    {
-        services.AddControllers();
-        services.AddEndpointsApiExplorer();
-        services.AddSwaggerGen();
-
-        services.AddTransient<IStorageBroker, StorageBroker>();
-        services.AddTransient<IProductOneService, ProductOneService>();
-        services.AddTransient<ITableOneService, TableOneService>();
-        services.AddTransient<IProductOneTableOneOrchestrationService, ProductOneTableOneOrchestrationService>();
-
-        services.AddCors(options =>
-        {
-            options.AddPolicy("AllowAll", policy =>
-                policy.AllowAnyOrigin()
-                      .AllowAnyMethod()
-                      .AllowAnyHeader());
-        });
-    }
-
-    private static void ConfigureApp(WebApplication app)
-    {
-        if (app.Environment.IsDevelopment())
+        if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
         {
             app.UseSwagger();
             app.UseSwaggerUI();
         }
 
-        app.UseStaticFiles();
+        app.UseForwardedHeaders(new ForwardedHeadersOptions
+        {
+            ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+        });
+
         app.UseHttpsRedirection();
-
         app.UseCors("AllowAll");
-
         app.UseAuthorization();
-
         app.MapControllers();
 
         app.Run();
