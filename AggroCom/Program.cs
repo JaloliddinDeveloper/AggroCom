@@ -13,7 +13,9 @@ public class Program
         var builder = WebApplication.CreateBuilder(args);
 
         RegisterServices(builder.Services);
+
         var app = builder.Build();
+
         ConfigureApp(app);
     }
 
@@ -31,7 +33,9 @@ public class Program
         services.AddCors(options =>
         {
             options.AddPolicy("AllowAll", policy =>
-                policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+                policy.AllowAnyOrigin()
+                      .AllowAnyMethod()
+                      .AllowAnyHeader());
         });
     }
 
@@ -45,9 +49,13 @@ public class Program
 
         app.UseStaticFiles();
         app.UseHttpsRedirection();
+
         app.UseCors("AllowAll");
+
         app.UseAuthorization();
+
         app.MapControllers();
+
         app.Run();
     }
 }
