@@ -8,42 +8,46 @@ using Microsoft.Extensions.Hosting;
 
 public class Program
 {
-    private static void Main(string[] args)
+    public static void Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
 
-        builder.Services.AddTransient<IStorageBroker, StorageBroker>();
-
-        builder.Services.AddTransient<IProductOneService, ProductOneService>();
-
-        builder.Services.AddTransient<ITableOneService, TableOneService>();
-
-        builder.Services.AddTransient<
-            IProductOneTableOneOrchestrationService,
-            ProductOneTableOneOrchestrationService>();
-
-        builder.Services.AddControllers();
-
-        builder.Services.AddEndpointsApiExplorer();
-
-        builder.Services.AddSwaggerGen();
-
+        RegisterServices(builder.Services);
         var app = builder.Build();
+        ConfigureApp(app);
+    }
 
-        app.UseStaticFiles();
+    private static void RegisterServices(IServiceCollection services)
+    {
+        services.AddControllers();
+        services.AddEndpointsApiExplorer();
+        services.AddSwaggerGen();
 
+        services.AddTransient<IStorageBroker, StorageBroker>();
+        services.AddTransient<IProductOneService, ProductOneService>();
+        services.AddTransient<ITableOneService, TableOneService>();
+        services.AddTransient<IProductOneTableOneOrchestrationService, ProductOneTableOneOrchestrationService>();
+
+        services.AddCors(options =>
+        {
+            options.AddPolicy("AllowAll", policy =>
+                policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+        });
+    }
+
+    private static void ConfigureApp(WebApplication app)
+    {
         if (app.Environment.IsDevelopment())
         {
             app.UseSwagger();
             app.UseSwaggerUI();
         }
 
+        app.UseStaticFiles();
         app.UseHttpsRedirection();
-
+        app.UseCors("AllowAll");
         app.UseAuthorization();
-
         app.MapControllers();
-
         app.Run();
     }
 }
