@@ -20,7 +20,6 @@ public class Program
         builder.Services.AddTransient<ITableOneService, TableOneService>();
         builder.Services.AddTransient<IProductOneTableOneOrchestrationService, ProductOneTableOneOrchestrationService>();
 
-
         builder.Services.AddEndpointsApiExplorer();
 
         builder.Services.AddSwaggerGen();
