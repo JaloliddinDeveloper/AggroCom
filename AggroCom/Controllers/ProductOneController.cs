@@ -1,4 +1,5 @@
-﻿using AggroCom.Models.Foundations.ProductOnes;
+﻿using AggroCom.Brokers.Storages;
+using AggroCom.Models.Foundations.ProductOnes;
 using AggroCom.Services.Foundations.ProductOnes;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -6,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using RESTFulSense.Controllers;
 using System;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace AggroCom.Controllers
@@ -30,12 +32,17 @@ namespace AggroCom.Controllers
         {
             try
             {
+                if (productOne == null) return BadRequest("Product data is missing.");
+
                 if (picture != null && picture.Length > 0)
                 {
-                    string uploadsFolder = Path.Combine(this.webHostEnvironment.WebRootPath, "images");
-                    Directory.CreateDirectory(uploadsFolder);
+                    string uploadsFolder = Path.Combine(webHostEnvironment.WebRootPath, "images");
+                    if (!Directory.Exists(uploadsFolder))
+                    {
+                        Directory.CreateDirectory(uploadsFolder);
+                    }
 
-                    string fileName = Guid.NewGuid().ToString() + Path.GetExtension(picture.FileName);
+                    string fileName = $"{Guid.NewGuid()}{Path.GetExtension(picture.FileName)}";
                     string filePath = Path.Combine(uploadsFolder, fileName);
 
                     using (var fileStream = new FileStream(filePath, FileMode.Create))
@@ -44,6 +51,10 @@ namespace AggroCom.Controllers
                     }
 
                     productOne.ProductPicture = $"images/{fileName}";
+                }
+                else
+                {
+                    return BadRequest("Picture is required.");
                 }
 
                 ProductOne addProductOne = new ProductOne
@@ -59,15 +70,40 @@ namespace AggroCom.Controllers
                     ProductType = productOne.ProductType,
                 };
 
-                ProductOne addedProductOne = await this.productOneService.AddProductOneAsync(addProductOne);
+                ProductOne addedProductOne = await productOneService.AddProductOneAsync(addProductOne);
 
                 return Created(addedProductOne);
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return BadRequest($"Error: {ex.Message}");
             }
         }
+
+        [HttpGet]
+        public async Task<ActionResult<IQueryable<ProductOne>>> GetAllProductOnes()
+        {
+            var products = await productOneService.RetrieveAllProductOnesAsync();
+            if (products == null || !products.Any())
+            {
+                return NotFound("No products found.");
+            }
+
+            return Ok(products);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<ProductOne>> GetProductOneById(int id)
+        {
+            var product = await productOneService.RetrieveProductOneByIdAsync(id);
+            if (product == null)
+            {
+                return NotFound($"Product with ID {id} not found.");
+            }
+
+            return Ok(product);
+        }
+
 
         [HttpDelete("{productOneId}")]
         public async ValueTask<ActionResult<ProductOne>> DeleteProductOneByIdAsync(int productOneId)
