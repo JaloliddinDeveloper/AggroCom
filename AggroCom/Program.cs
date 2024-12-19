@@ -6,6 +6,7 @@ using AggroCom.Services.Orchestrations.ProductOneTableOneOrchestrationServices;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.DependencyInjection;
+using AggroCom.Services.Processings.ProductOnes;
 
 public class Program
 {
@@ -19,6 +20,7 @@ public class Program
         builder.Services.AddTransient<IProductOneService, ProductOneService>();
         builder.Services.AddTransient<ITableOneService, TableOneService>();
         builder.Services.AddTransient<IProductOneTableOneOrchestrationService, ProductOneTableOneOrchestrationService>();
+        builder.Services.AddTransient<IProductOneProcessingService, ProductOneProcessingService>();
 
         builder.Services.AddEndpointsApiExplorer();
 

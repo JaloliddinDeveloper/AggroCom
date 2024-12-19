@@ -25,10 +25,14 @@ namespace AggroCom.Controllers
                 TableOne addTableOne = new TableOne
                 {
                     Id = TableOne.Id,
-                    EkinTuri = TableOne.EkinTuri,
-                    BegonaQarshi = TableOne.BegonaQarshi,
-                    SarfMeyori = TableOne.SarfMeyori,
-                    Cheklovlar = TableOne.Cheklovlar,
+                    EkinTuriUz = TableOne.EkinTuriUz,
+                    EkinTuriRu = TableOne.EkinTuriRu,
+                    BegonaQarshiUz = TableOne.BegonaQarshiUz,
+                    BegonaQarshiRu = TableOne.BegonaQarshiRu,
+                    SarfMeyoriUz = TableOne.SarfMeyoriUz,
+                    SarfMeyoriRu = TableOne.SarfMeyoriRu,
+                    CheklovlarUz = TableOne.CheklovlarUz,
+                    CheklovlarRu = TableOne.CheklovlarRu,
                     MavsumNechta = TableOne.MavsumNechta,
                     ProductOneId = TableOne.ProductOneId
                 };
@@ -47,10 +51,6 @@ namespace AggroCom.Controllers
             try
             {
                 var tableOnes = await tableOneService.RetrieveAllTableOnesAsync();
-                if (tableOnes == null || !tableOnes.Any())
-                {
-                    return NotFound("No table entries found.");
-                }
 
                 return Ok(tableOnes);
             }

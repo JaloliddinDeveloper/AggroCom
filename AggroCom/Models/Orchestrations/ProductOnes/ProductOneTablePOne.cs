@@ -1,7 +1,7 @@
 ﻿using AggroCom.Models.Foundations.ProductOnes;
 using System.Collections.Generic;
 
-namespace AggroCom.Models.Orchestrations
+namespace AggroCom.Models.Orchestrations.ProductOnes
 {
     public class ProductOneTableOne
     {

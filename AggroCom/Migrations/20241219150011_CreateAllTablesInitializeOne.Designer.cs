@@ -3,6 +3,7 @@ using AggroCom.Brokers.Storages;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AggroCom.Migrations
 {
     [DbContext(typeof(StorageBroker))]
-    partial class StorageBrokerModelSnapshot : ModelSnapshot
+    [Migration("20241219150011_CreateAllTablesInitializeOne")]
+    partial class CreateAllTablesInitializeOne
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -29,37 +32,19 @@ namespace AggroCom.Migrations
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("AdditionRu")
+                    b.Property<string>("Addition")
                         .HasColumnType("longtext");
 
-                    b.Property<string>("AdditionUz")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("DesRu")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("DesUz")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("DescriptionRu")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("DescriptionUz")
+                    b.Property<string>("Description")
                         .HasColumnType("longtext");
 
                     b.Property<string>("IconUrl")
                         .HasColumnType("longtext");
 
-                    b.Property<string>("KimyoviySinfiRu")
+                    b.Property<string>("KimyoviySinfi")
                         .HasColumnType("longtext");
 
-                    b.Property<string>("KimyoviySinfiUz")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("PreparatShakliRu")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("PreparatShakliUz")
+                    b.Property<string>("PreparatShakli")
                         .HasColumnType("longtext");
 
                     b.Property<string>("ProductPicture")
@@ -68,22 +53,13 @@ namespace AggroCom.Migrations
                     b.Property<int>("ProductType")
                         .HasColumnType("int");
 
-                    b.Property<string>("QadogiRu")
+                    b.Property<string>("Qadogi")
                         .HasColumnType("longtext");
 
-                    b.Property<string>("QadogiUz")
+                    b.Property<string>("TasirModda")
                         .HasColumnType("longtext");
 
-                    b.Property<string>("TasirModdaRu")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("TasirModdaUz")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("TitleRu")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("TitleUz")
+                    b.Property<string>("Title")
                         .HasColumnType("longtext");
 
                     b.HasKey("Id");
@@ -99,22 +75,13 @@ namespace AggroCom.Migrations
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("BegonaQarshiRu")
+                    b.Property<string>("BegonaQarshi")
                         .HasColumnType("longtext");
 
-                    b.Property<string>("BegonaQarshiUz")
+                    b.Property<string>("Cheklovlar")
                         .HasColumnType("longtext");
 
-                    b.Property<string>("CheklovlarRu")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("CheklovlarUz")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("EkinTuriRu")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("EkinTuriUz")
+                    b.Property<string>("EkinTuri")
                         .HasColumnType("longtext");
 
                     b.Property<int>("MavsumNechta")
@@ -123,10 +90,7 @@ namespace AggroCom.Migrations
                     b.Property<int>("ProductOneId")
                         .HasColumnType("int");
 
-                    b.Property<string>("SarfMeyoriRu")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("SarfMeyoriUz")
+                    b.Property<string>("SarfMeyori")
                         .HasColumnType("longtext");
 
                     b.HasKey("Id");
