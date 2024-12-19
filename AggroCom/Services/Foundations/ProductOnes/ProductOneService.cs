@@ -1,4 +1,7 @@
-﻿using AggroCom.Brokers.Storages;
+﻿// ---------------------------------------------------------------------------------- 
+// Copyright (c) The Standard Organization, a coalition of the Good-Hearted Engineers 
+// ----------------------------------------------------------------------------------
+using AggroCom.Brokers.Storages;
 using AggroCom.Models.Foundations.ProductOnes;
 using System.Linq;
 using System.Threading.Tasks;

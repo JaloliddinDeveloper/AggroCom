@@ -1,4 +1,7 @@
-﻿namespace AggroCom.Models.Foundations.ProductOnes
+﻿// ---------------------------------------------------------------------------------- 
+// Copyright (c) The Standard Organization, a coalition of the Good-Hearted Engineers 
+// ----------------------------------------------------------------------------------
+namespace AggroCom.Models.Foundations.ProductOnes
 {
     public enum ProductType
     {

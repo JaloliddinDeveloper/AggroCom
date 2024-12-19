@@ -1,9 +1,9 @@
-﻿using AggroCom.Models.Foundations.ProductOnes;
+﻿// ---------------------------------------------------------------------------------- 
+// Copyright (c) The Standard Organization, a coalition of the Good-Hearted Engineers 
+// ----------------------------------------------------------------------------------
 using AggroCom.Models.Orchestrations.ProductOnes;
 using AggroCom.Services.Foundations.ProductOnes;
 using AggroCom.Services.Foundations.TableOnes;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
