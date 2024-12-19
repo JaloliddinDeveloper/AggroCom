@@ -1,8 +1,7 @@
-﻿using AggroCom.Models.Orchestrations;
-using AggroCom.Services.Orchestrations.ProductOneTableOneOrchestrationServices;
+﻿using AggroCom.Services.Orchestrations.ProductOneTableOneOrchestrationServices;
 using Microsoft.AspNetCore.Mvc;
 using RESTFulSense.Controllers;
-using System.Linq;
+using System;
 using System.Threading.Tasks;
 
 namespace AggroCom.Controllers
@@ -20,24 +19,25 @@ namespace AggroCom.Controllers
             this.productOneTableOneOrchestrationService = productOneTableOneOrchestrationService;
         }
 
-        [HttpGet("ger")]
-        public async Task<IActionResult> GetHerbicidesWithTableOnes()
+        [HttpGet("details/{productId}")]
+        public async Task<IActionResult> GetProductOneTableOneByIdAsync(int productId)
         {
-            IQueryable<ProductOneTableOne> groupStudents = 
-                await this.productOneTableOneOrchestrationService.
-                RetrieveProductOnesHerbicidesWithTableOnesAsync();
+            try
+            {
+                var product = await this.productOneTableOneOrchestrationService
+                    .RetrieveProductOneTableOneByIdAsync(productId);
 
-            return Ok(groupStudents);
-        }
+                if (product == null)
+                {
+                    return NotFound($"Product with ID {productId} not found.");
+                }
 
-        [HttpGet("fun")]
-        public async Task<IActionResult> GetFungicidesWithTableOnes()
-        {
-            IQueryable<ProductOneTableOne> groupStudents = 
-                await this.productOneTableOneOrchestrationService.
-                RetrieveProductOnesFungicidesWithTableOnesAsync();
-
-            return Ok(groupStudents);
+                return Ok(product);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);  
+            }
         }
     }
 }

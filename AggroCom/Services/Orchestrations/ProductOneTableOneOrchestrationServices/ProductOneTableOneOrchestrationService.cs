@@ -1,7 +1,8 @@
 ﻿using AggroCom.Models.Foundations.ProductOnes;
-using AggroCom.Models.Orchestrations;
+using AggroCom.Models.Orchestrations.ProductOnes;
 using AggroCom.Services.Foundations.ProductOnes;
 using AggroCom.Services.Foundations.TableOnes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -21,37 +22,24 @@ namespace AggroCom.Services.Orchestrations.ProductOneTableOneOrchestrationServic
             this.tableOneService = tableOneService;
         }
 
-        public async ValueTask<IQueryable<ProductOneTableOne>> RetrieveProductOnesHerbicidesWithTableOnesAsync()
+        public async ValueTask<ProductOneTableOne> RetrieveProductOneTableOneByIdAsync(int productId)
         {
-            var products = (await this.productOneService.RetrieveAllProductOnesAsync())
-                .Where(p => p.ProductType == ProductType.Гербицидлар).ToList();
+            var product = (await this.productOneService.RetrieveAllProductOnesAsync())
+                .FirstOrDefault(p => p.Id == productId);
 
-            var tableOnes = (await this.tableOneService.RetrieveAllTableOnesAsync()).ToList();
+            if (product == null)
+            {
+                return null;
+            }
 
-            var result = products.Select(product => new ProductOneTableOne
+            var tableOnes = (await this.tableOneService.RetrieveAllTableOnesAsync())
+                .Where(t => t.ProductOneId == product.Id).ToList();
+
+            return new ProductOneTableOne
             {
                 ProductOne = product,
-                TableOnes = tableOnes.Where(t => t.ProductOneId == product.Id).ToList()
-            });
-
-            return result.AsQueryable();
+                TableOnes = tableOnes
+            };
         }
-
-        public async ValueTask<IQueryable<ProductOneTableOne>> RetrieveProductOnesFungicidesWithTableOnesAsync()
-        {
-            var products = (await this.productOneService.RetrieveAllProductOnesAsync())
-                .Where(p => p.ProductType == ProductType.Фунгицидлар).ToList();
-
-            var tableOnes = (await this.tableOneService.RetrieveAllTableOnesAsync()).ToList();
-
-            var result = products.Select(product => new ProductOneTableOne
-            {
-                ProductOne = product,
-                TableOnes = tableOnes.Where(t => t.ProductOneId == product.Id).ToList()
-            });
-
-            return result.AsQueryable();
-        }
-
     }
 }
