@@ -1,4 +1,7 @@
-﻿using AggroCom.Services.Orchestrations.ProductOneTableOneOrchestrationServices;
+﻿// ---------------------------------------------------------------------------------- 
+// Copyright (c) The Standard Organization, a coalition of the Good-Hearted Engineers 
+// ----------------------------------------------------------------------------------
+using AggroCom.Services.Orchestrations.ProductOneTableOneOrchestrationServices;
 using Microsoft.AspNetCore.Mvc;
 using RESTFulSense.Controllers;
 using System;

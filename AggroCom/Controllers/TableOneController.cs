@@ -1,4 +1,7 @@
-﻿using AggroCom.Models.Foundations.ProductOnes;
+﻿// ---------------------------------------------------------------------------------- 
+// Copyright (c) The Standard Organization, a coalition of the Good-Hearted Engineers 
+// ----------------------------------------------------------------------------------
+using AggroCom.Models.Foundations.ProductOnes;
 using AggroCom.Services.Foundations.TableOnes;
 using Microsoft.AspNetCore.Mvc;
 using RESTFulSense.Controllers;

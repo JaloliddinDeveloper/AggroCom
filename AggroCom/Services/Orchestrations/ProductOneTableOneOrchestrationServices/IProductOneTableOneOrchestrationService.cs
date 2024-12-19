@@ -1,4 +1,7 @@
-﻿using AggroCom.Models.Orchestrations.ProductOnes;
+﻿// ---------------------------------------------------------------------------------- 
+// Copyright (c) The Standard Organization, a coalition of the Good-Hearted Engineers 
+// ----------------------------------------------------------------------------------
+using AggroCom.Models.Orchestrations.ProductOnes;
 using System.Threading.Tasks;
 
 namespace AggroCom.Services.Orchestrations.ProductOneTableOneOrchestrationServices

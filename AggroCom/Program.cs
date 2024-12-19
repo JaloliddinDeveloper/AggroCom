@@ -1,3 +1,6 @@
+// ---------------------------------------------------------------------------------- 
+// Copyright (c) The Standard Organization, a coalition of the Good-Hearted Engineers 
+// ----------------------------------------------------------------------------------
 using Microsoft.AspNetCore.HttpOverrides;
 using AggroCom.Brokers.Storages;
 using AggroCom.Services.Foundations.ProductOnes;
