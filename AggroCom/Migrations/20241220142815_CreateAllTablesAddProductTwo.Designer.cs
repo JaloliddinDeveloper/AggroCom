@@ -3,6 +3,7 @@ using AggroCom.Brokers.Storages;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AggroCom.Migrations
 {
     [DbContext(typeof(StorageBroker))]
-    partial class StorageBrokerModelSnapshot : ModelSnapshot
+    [Migration("20241220142815_CreateAllTablesAddProductTwo")]
+    partial class CreateAllTablesAddProductTwo
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -136,58 +139,6 @@ namespace AggroCom.Migrations
                     b.ToTable("TableOnes");
                 });
 
-            modelBuilder.Entity("AggroCom.Models.Foundations.ProductTwos.ProductTwo", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Des")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("ProductIcon")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("ProductPicture")
-                        .HasColumnType("longtext");
-
-                    b.Property<int>("ProductTwoType")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ProductTwos");
-                });
-
-            modelBuilder.Entity("AggroCom.Models.Foundations.ProductTwos.TableTwo", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Name")
-                        .HasColumnType("longtext");
-
-                    b.Property<int>("ProductTwoId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProductTwoId");
-
-                    b.ToTable("TableTwo");
-                });
-
             modelBuilder.Entity("AggroCom.Models.Foundations.ProductOnes.TableOne", b =>
                 {
                     b.HasOne("AggroCom.Models.Foundations.ProductOnes.ProductOne", null)
@@ -197,23 +148,9 @@ namespace AggroCom.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("AggroCom.Models.Foundations.ProductTwos.TableTwo", b =>
-                {
-                    b.HasOne("AggroCom.Models.Foundations.ProductTwos.ProductTwo", null)
-                        .WithMany("TableTwos")
-                        .HasForeignKey("ProductTwoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("AggroCom.Models.Foundations.ProductOnes.ProductOne", b =>
                 {
                     b.Navigation("TableOnes");
-                });
-
-            modelBuilder.Entity("AggroCom.Models.Foundations.ProductTwos.ProductTwo", b =>
-                {
-                    b.Navigation("TableTwos");
                 });
 #pragma warning restore 612, 618
         }
