@@ -1,4 +1,7 @@
-﻿using AggroCom.Models.Foundations.ProductTwos;
+﻿// ---------------------------------------------------------------------------------- 
+// Copyright (c) The Standard Organization, a coalition of the Good-Hearted Engineers 
+// ----------------------------------------------------------------------------------
+using AggroCom.Models.Foundations.ProductTwos;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
