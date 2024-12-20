@@ -10,6 +10,8 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using AggroCom.Services.Processings.ProductOnes;
+using AggroCom.Services.Foundations.ProductTwos;
+using AggroCom.Services.Foundations.TableTwos;
 
 public class Program
 {
@@ -19,11 +21,17 @@ public class Program
 
         builder.Services.AddControllers();
 
-        builder.Services.AddTransient<IStorageBroker, StorageBroker>();
-        builder.Services.AddTransient<IProductOneService, ProductOneService>();
-        builder.Services.AddTransient<ITableOneService, TableOneService>();
-        builder.Services.AddTransient<IProductOneTableOneOrchestrationService, ProductOneTableOneOrchestrationService>();
-        builder.Services.AddTransient<IProductOneProcessingService, ProductOneProcessingService>();
+        builder.Services.AddTransient<IStorageBroker, StorageBroker>();//0
+        builder.Services.AddTransient<IProductOneService, ProductOneService>();//1
+        builder.Services.AddTransient<IProductTwoService, ProductTwoService>();//2
+        builder.Services.AddTransient<ITableOneService, TableOneService>();//1
+        builder.Services.AddTransient<ITableTwoService, TableTwoService>();//2
+
+        builder.Services.AddTransient<IProductOneTableOneOrchestrationService,
+            ProductOneTableOneOrchestrationService>();
+
+        builder.Services.AddTransient<IProductOneProcessingService,
+            ProductOneProcessingService>();
 
         builder.Services.AddEndpointsApiExplorer();
 

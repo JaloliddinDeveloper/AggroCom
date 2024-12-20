@@ -1,6 +1,7 @@
 ﻿// ---------------------------------------------------------------------------------- 
 // Copyright (c) The Standard Organization, a coalition of the Good-Hearted Engineers 
 // ----------------------------------------------------------------------------------
+using AggroCom.Models.Foundations.ProductTwos;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System;
