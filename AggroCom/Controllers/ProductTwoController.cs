@@ -1,51 +1,51 @@
 ﻿// ---------------------------------------------------------------------------------- 
 // Copyright (c) The Standard Organization, a coalition of the Good-Hearted Engineers 
 // ----------------------------------------------------------------------------------
-using AggroCom.Models.Foundations.ProductOnes;
-using AggroCom.Services.Foundations.ProductOnes;
-using AggroCom.Services.Orchestrations.ProductOneTableOneOrchestrationServices;
-using AggroCom.Services.Processings.ProductOnes;
+using AggroCom.Models.Foundations.ProductTwos;
+using AggroCom.Services.Foundations.ProductTwos;
+using AggroCom.Services.Processings.ProductTwos;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RESTFulSense.Controllers;
-using System;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using System;
+using AggroCom.Services.Orchestrations.ProductTwoTableTwoOrchestrations;
 
 namespace AggroCom.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class ProductOneController : RESTFulController
+    public class ProductTwoController : RESTFulController
     {
-        private readonly IProductOneService productOneService;
+        private readonly IProductTwoService ProductTwoService;
         private readonly IWebHostEnvironment webHostEnvironment;
-        private readonly IProductOneProcessingService productOneProcessingService;
-        private readonly IProductOneTableOneOrchestrationService 
-            productOneTableOneOrchestrationService;
+        private readonly IProductTwoProcessingService ProductTwoProcessingService;
+        private readonly IProductTwoTableTwoOrchestrationService
+            productTwoTableTwoOrchestrationService;
 
-        public ProductOneController(
-            IProductOneService productOneService, 
+        public ProductTwoController(
+            IProductTwoService productTwoService, 
             IWebHostEnvironment webHostEnvironment, 
-            IProductOneProcessingService productOneProcessingService, 
-            IProductOneTableOneOrchestrationService 
-            productOneTableOneOrchestrationService)
+            IProductTwoProcessingService productTwoProcessingService,
+            IProductTwoTableTwoOrchestrationService 
+            productTwoTableTwoOrchestrationService)
         {
-            this.productOneService = productOneService;
+            ProductTwoService = productTwoService;
             this.webHostEnvironment = webHostEnvironment;
-            this.productOneProcessingService = productOneProcessingService;
-            this.productOneTableOneOrchestrationService = 
-                productOneTableOneOrchestrationService;
+            ProductTwoProcessingService = productTwoProcessingService;
+            this.productTwoTableTwoOrchestrationService = 
+                productTwoTableTwoOrchestrationService;
         }
 
         [HttpPost]
-        public async ValueTask<ActionResult<ProductOne>> PostProductOneAsync([FromForm] ProductOne productOne, IFormFile picture, IFormFile icon)
+        public async ValueTask<ActionResult<ProductTwo>> PostProductTwoAsync([FromForm] ProductTwo ProductTwo, IFormFile picture, IFormFile icon)
         {
             try
             {
-                if (productOne == null) return BadRequest("Product data is missing.");
+                if (ProductTwo == null) return BadRequest("Product data is missing.");
 
                 string uploadsFolder = Path.Combine(webHostEnvironment.WebRootPath, "images");
                 if (!Directory.Exists(uploadsFolder))
@@ -63,7 +63,7 @@ namespace AggroCom.Controllers
                         await picture.CopyToAsync(fileStream);
                     }
 
-                    productOne.ProductPicture = $"images/{fileName}";
+                    ProductTwo.ProductPicture = $"images/{fileName}";
                 }
                 else
                 {
@@ -80,40 +80,27 @@ namespace AggroCom.Controllers
                         await icon.CopyToAsync(iconStream);
                     }
 
-                    productOne.IconUrl = $"images/{iconFileName}";
+                    ProductTwo.ProductIcon = $"images/{iconFileName}";
                 }
                 else
                 {
                     return BadRequest("Icon is required.");
                 }
 
-                ProductOne addProductOne = new ProductOne
+                ProductTwo addProductTwo = new ProductTwo
                 {
-                    Id = productOne.Id,
-                    TitleUz = productOne.TitleUz,
-                    TitleRu = productOne.TitleRu,
-                    DesUz = productOne.DesUz,
-                    DesRu = productOne.DesRu,
-                    DescriptionUz = productOne.DescriptionUz,
-                    DescriptionRu = productOne.DescriptionRu,
-                    TasirModdaUz = productOne.TasirModdaUz,
-                    TasirModdaRu = productOne.TasirModdaRu,
-                    KimyoviySinfiUz = productOne.KimyoviySinfiUz,
-                    KimyoviySinfiRu = productOne.KimyoviySinfiRu,
-                    PreparatShakliUz = productOne.PreparatShakliUz,
-                    PreparatShakliRu = productOne.PreparatShakliRu,
-                    QadogiUz = productOne.QadogiUz,
-                    QadogiRu = productOne.QadogiRu,
-                    ProductPicture = productOne.ProductPicture,
-                    IconUrl = productOne.IconUrl,
-                    ProductType = productOne.ProductType,
-                    AdditionUz = productOne.AdditionUz,
-                    AdditionRu = productOne.AdditionRu
+                    Id = ProductTwo.Id,
+                    Name = ProductTwo.Name,
+                    Des = ProductTwo.Des,
+                    Description = ProductTwo.Description,
+                    ProductIcon = ProductTwo.ProductIcon,
+                    ProductTwoType = ProductTwo.ProductTwoType,
+                    ProductPicture = ProductTwo.ProductPicture,
                 };
 
-                ProductOne addedProductOne = await productOneService.AddProductOneAsync(addProductOne);
+                ProductTwo addedProductTwo = await ProductTwoService.AddProductTwoAsync(addProductTwo);
 
-                return Created(addedProductOne);
+                return Created(addedProductTwo);
             }
 
             catch (Exception ex)
@@ -123,11 +110,11 @@ namespace AggroCom.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IQueryable<ProductOne>>> GetAllProductOnes()
+        public async Task<ActionResult<IQueryable<ProductTwo>>> GetAllProductTwos()
         {
             try
             {
-                var products = await productOneService.RetrieveAllProductOnesAsync();
+                var products = await ProductTwoService.RetrieveAllProductTwosAsync();
 
                 return Ok(products);
             }
@@ -138,11 +125,11 @@ namespace AggroCom.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<ProductOne>> GetProductOneById(int id)
+        public async Task<ActionResult<ProductTwo>> GetProductTwoById(int id)
         {
             try
             {
-                var product = await productOneService.RetrieveProductOneByIdAsync(id);
+                var product = await ProductTwoService.RetrieveProductTwoByIdAsync(id);
                 if (product == null)
                 {
                     return NotFound($"Product with ID {id} not found.");
@@ -154,15 +141,15 @@ namespace AggroCom.Controllers
             {
                 return BadRequest(ex.Message);
             }
-           
+
         }
 
-        [HttpDelete("{productOneId}")]
-        public async ValueTask<ActionResult<ProductOne>> DeleteProductOneByIdAsync(int productOneId)
+        [HttpDelete("{ProductTwoId}")]
+        public async ValueTask<ActionResult<ProductTwo>> DeleteProductTwoByIdAsync(int ProductTwoId)
         {
             try
             {
-                return await this.productOneService.RemoveProductOneAsync(productOneId);
+                return await this.ProductTwoService.RemoveProductTwoAsync(ProductTwoId);
             }
 
             catch (Exception ex)
@@ -172,12 +159,12 @@ namespace AggroCom.Controllers
         }
 
         [HttpGet("details/{productId}")]
-        public async Task<IActionResult> GetProductOneTableOneByIdAsync(int productId)
+        public async Task<IActionResult> GetProductTwoTableOneByIdAsync(int productId)
         {
             try
             {
-                var product = await this.productOneTableOneOrchestrationService
-                    .RetrieveProductOneTableOneByIdAsync(productId);
+                var product = await this.productTwoTableTwoOrchestrationService
+                    .RetrieveProductTwoTableTwoByIdAsync(productId);
 
                 if (product == null)
                 {
@@ -192,12 +179,12 @@ namespace AggroCom.Controllers
             }
         }
 
-        [HttpGet("Gerbitsids")]
-        public async Task<IActionResult> GetGerbitsidsAsync()
+        [HttpGet("Suyuq")]
+        public async Task<IActionResult> GetSuyuqAsync()
         {
             try
             {
-                var gerbiseds = await this.productOneProcessingService.RetrieveAllProductOnesGepbisetsAsync();
+                var gerbiseds = await this.ProductTwoProcessingService.RetrieveAllProductTwosSuyuqAsync();
 
                 return Ok(gerbiseds);
             }
@@ -207,13 +194,13 @@ namespace AggroCom.Controllers
             }
         }
 
-        [HttpGet("Fungitsids")]
+        [HttpGet("Kukun")]
         public async Task<IActionResult> GetFungitsidsAsync()
         {
             try
             {
-                var fungicidlar = await this.productOneProcessingService.
-                    RetrieveAllProductOnesFungisetsAsync();
+                var fungicidlar = await this.ProductTwoProcessingService.
+                    RetrieveAllProductTwosKukunAsync();
 
                 return Ok(fungicidlar);
             }

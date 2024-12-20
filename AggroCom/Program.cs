@@ -12,6 +12,8 @@ using Microsoft.Extensions.DependencyInjection;
 using AggroCom.Services.Processings.ProductOnes;
 using AggroCom.Services.Foundations.ProductTwos;
 using AggroCom.Services.Foundations.TableTwos;
+using AggroCom.Services.Orchestrations.ProductTwoTableTwoOrchestrations;
+using AggroCom.Services.Processings.ProductTwos;
 
 public class Program
 {
@@ -28,10 +30,16 @@ public class Program
         builder.Services.AddTransient<ITableTwoService, TableTwoService>();//2
 
         builder.Services.AddTransient<IProductOneTableOneOrchestrationService,
-            ProductOneTableOneOrchestrationService>();
+            ProductOneTableOneOrchestrationService>(); 
+        
+        builder.Services.AddTransient<IProductTwoTableTwoOrchestrationService,
+            ProductTwoTableTwoOrchestrationService>();
 
         builder.Services.AddTransient<IProductOneProcessingService,
             ProductOneProcessingService>();
+        
+        builder.Services.AddTransient<IProductTwoProcessingService,
+            ProductTwoProcessingService>();
 
         builder.Services.AddEndpointsApiExplorer();
 
