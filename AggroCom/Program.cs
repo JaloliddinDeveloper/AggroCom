@@ -14,12 +14,18 @@ using AggroCom.Services.Foundations.ProductTwos;
 using AggroCom.Services.Foundations.TableTwos;
 using AggroCom.Services.Orchestrations.ProductTwoTableTwoOrchestrations;
 using AggroCom.Services.Processings.ProductTwos;
+using Microsoft.AspNetCore.Http.Features;
 
 public class Program
 {
     public static void Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
+
+        builder.Services.Configure<FormOptions>(options =>
+        {
+            options.MultipartBodyLengthLimit = 52428800;
+        });
 
         builder.Services.AddControllers();
 
