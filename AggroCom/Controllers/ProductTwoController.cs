@@ -157,7 +157,8 @@ namespace AggroCom.Controllers
         {
             try
             {
-                return await this.ProductTwoService.RemoveProductTwoAsync(ProductTwoId);
+                return await this.ProductTwoService.
+                    RemoveProductTwoAsync(ProductTwoId);
             }
 
             catch (Exception ex)
@@ -187,14 +188,15 @@ namespace AggroCom.Controllers
             }
         }
 
-        [HttpGet("Suyuq")]
-        public async Task<IActionResult> GetSuyuqAsync()
+        [HttpGet("Биостимулятор")]
+        public async Task<IActionResult> GetBiosAsync()
         {
             try
             {
-                var gerbiseds = await this.ProductTwoProcessingService.RetrieveAllProductTwosSuyuqAsync();
+                var bios = await this.ProductTwoProcessingService
+                    .RetrieveAllProductTwosБиостимуляторAsync();
 
-                return Ok(gerbiseds);
+                return Ok(bios);
             }
             catch (Exception ex)
             {
@@ -202,15 +204,33 @@ namespace AggroCom.Controllers
             }
         }
 
-        [HttpGet("Kukun")]
-        public async Task<IActionResult> GetFungitsidsAsync()
+        [HttpGet("Микроэлемент")]
+        public async Task<IActionResult> GetMicroelementAsync()
         {
             try
             {
-                var fungicidlar = await this.ProductTwoProcessingService.
-                    RetrieveAllProductTwosKukunAsync();
+                var microe = await this.ProductTwoProcessingService
+                    .RetrieveAllProductTwosМикроэлементAsync();
+                    
 
-                return Ok(fungicidlar);
+                return Ok(microe);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("Нпк")]
+        public async Task<IActionResult> GetNpkAsync()
+        {
+            try
+            {
+                var npk = await this.ProductTwoProcessingService.RetrieveAllProductTwosНпкAsync();  
+                   
+
+
+                return Ok(npk);
             }
             catch (Exception ex)
             {

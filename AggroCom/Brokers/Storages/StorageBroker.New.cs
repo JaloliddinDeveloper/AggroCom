@@ -32,7 +32,5 @@ namespace AggroCom.Brokers.Storages
             var allNews = await SelectAllAsync<New>();
             return allNews.OrderByDescending(news => news.Date);
         }
-
-
     }
 }

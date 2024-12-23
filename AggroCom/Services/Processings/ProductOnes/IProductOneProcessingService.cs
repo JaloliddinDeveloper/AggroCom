@@ -11,5 +11,10 @@ namespace AggroCom.Services.Processings.ProductOnes
     {
         ValueTask<IQueryable<ProductOne>> RetrieveAllProductOnesGepbisetsAsync();
         ValueTask<IQueryable<ProductOne>> RetrieveAllProductOnesFungisetsAsync();
+        ValueTask<IQueryable<ProductOne>> RetrieveAllProductOnesInsektorsAsync();
+        ValueTask<IQueryable<ProductOne>> RetrieveAllProductOnesDefolsAsync();
+        ValueTask<IQueryable<ProductOne>> RetrieveAllProductOnesSirtFaolsAsync();
+        ValueTask<IQueryable<ProductOne>> RetrieveAllProductOnesUrugdorisAsync();
+        ValueTask<IQueryable<ProductOne>> RetrieveAllProductOsimlikPresAsync();
     }
 }

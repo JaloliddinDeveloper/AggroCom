@@ -2,39 +2,39 @@
 // Copyright (c) The Standard Organization, a coalition of the Good-Hearted Engineers 
 // ----------------------------------------------------------------------------------
 using AggroCom.Brokers.Storages;
-using AggroCom.Models.Foundations.News;
-using AggroCom.Services.Foundations.News;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RESTFulSense.Controllers;
-using System;
 using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
+using System;
+using AggroCom.Services.Foundations.Photos;
+using AggroCom.Models.Foundations.Photos;
+using System.Linq;
 
 namespace AggroCom.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class NewController: RESTFulController
+    public class PhotoController:RESTFulController
     {
         private readonly IWebHostEnvironment webHostEnvironment;
         private readonly IStorageBroker storageBroker;
-        private readonly INewsService newsService;
+        private readonly IPhotoService  photoService;
 
-        public NewController(
+        public PhotoController(
             IWebHostEnvironment webHostEnvironment, 
             IStorageBroker storageBroker, 
-            INewsService newsService)
+            IPhotoService photoService)
         {
             this.webHostEnvironment = webHostEnvironment;
             this.storageBroker = storageBroker;
-            this.newsService = newsService;
+            this.photoService = photoService;
         }
 
         [HttpPost]
-        public async Task<IActionResult> PostPictureAsync([FromForm] New newModel, IFormFile newPicture)
+        public async Task<IActionResult> PostPictureAsync([FromForm] Photo newModel, IFormFile newPicture)
         {
             try
             {
@@ -58,10 +58,10 @@ namespace AggroCom.Controllers
                     await newPicture.CopyToAsync(fileStream);
                 }
 
-                newModel.NewPicture = $"images/{fileName}";
-                newModel.Date = DateTimeOffset.Now;
+                newModel.PictureUrl = $"images/{fileName}";
+                newModel.CreateDate = DateTimeOffset.Now;
 
-               await this.storageBroker.InsertNewAsync(newModel);
+                await this.storageBroker.InsertPhotoAsync(newModel);
 
                 return Created(newModel);
             }
@@ -76,9 +76,9 @@ namespace AggroCom.Controllers
         {
             try
             {
-                var allNewsQuery = await this.storageBroker.SelectAllNewsOrderAsync();
+                var allNewsQuery = await this.storageBroker.SelectAllPhotosAsync();
 
-                var sortedNews = allNewsQuery.OrderByDescending(news => news.Date).ToList();
+                var sortedNews = allNewsQuery.OrderByDescending(news => news.CreateDate).ToList();
 
                 return Ok(sortedNews);
             }
@@ -89,11 +89,11 @@ namespace AggroCom.Controllers
         }
 
         [HttpDelete("{Id}")]
-        public async ValueTask<ActionResult<New>> DeleteNewsByIdAsync(int Id)
+        public async ValueTask<ActionResult<Photo>> DeletePhotoByIdAsync(int Id)
         {
             try
             {
-                return await this.newsService.RemoveNewsAsync(Id);
+                return await this.photoService.RemovePhotoAsync(Id);
             }
 
             catch (Exception ex)
