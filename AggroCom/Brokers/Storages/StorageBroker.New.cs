@@ -26,5 +26,13 @@ namespace AggroCom.Brokers.Storages
 
         public async ValueTask<New> DeleteNewAsync(New New) =>
             await DeleteAsync(New);
+
+        public async ValueTask<IQueryable<New>> SelectAllNewsOrderAsync()
+        {
+            var allNews = await SelectAllAsync<New>();
+            return allNews.OrderByDescending(news => news.Date);
+        }
+
+
     }
 }

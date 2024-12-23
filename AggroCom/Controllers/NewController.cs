@@ -3,12 +3,15 @@
 // ----------------------------------------------------------------------------------
 using AggroCom.Brokers.Storages;
 using AggroCom.Models.Foundations.News;
+using AggroCom.Models.Foundations.ProductOnes;
+using AggroCom.Services.Foundations.News;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RESTFulSense.Controllers;
 using System;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace AggroCom.Controllers
@@ -19,13 +22,16 @@ namespace AggroCom.Controllers
     {
         private readonly IWebHostEnvironment webHostEnvironment;
         private readonly IStorageBroker storageBroker;
+        private readonly INewsService newsService;
 
         public NewController(
             IWebHostEnvironment webHostEnvironment, 
-            IStorageBroker storageBroker)
+            IStorageBroker storageBroker, 
+            INewsService newsService)
         {
             this.webHostEnvironment = webHostEnvironment;
             this.storageBroker = storageBroker;
+            this.newsService = newsService;
         }
 
         [HttpPost]
@@ -63,6 +69,37 @@ namespace AggroCom.Controllers
             catch (Exception ex)
             {
                 return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAllNewsSortedByDateAsync()
+        {
+            try
+            {
+                var allNewsQuery = await this.storageBroker.SelectAllNewsOrderAsync();
+
+                var sortedNews = allNewsQuery.OrderByDescending(news => news.Date).ToList();
+
+                return Ok(sortedNews);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
+        [HttpDelete("{Id}")]
+        public async ValueTask<ActionResult<New>> DeleteNewsByIdAsync(int Id)
+        {
+            try
+            {
+                return await this.newsService.RemoveNewsAsync(Id);
+            }
+
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
             }
         }
     }

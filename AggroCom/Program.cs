@@ -15,6 +15,7 @@ using AggroCom.Services.Foundations.TableTwos;
 using AggroCom.Services.Orchestrations.ProductTwoTableTwoOrchestrations;
 using AggroCom.Services.Processings.ProductTwos;
 using Microsoft.AspNetCore.Http.Features;
+using AggroCom.Services.Foundations.News;
 
 public class Program
 {
@@ -34,6 +35,7 @@ public class Program
         builder.Services.AddTransient<IProductTwoService, ProductTwoService>();//2
         builder.Services.AddTransient<ITableOneService, TableOneService>();//1
         builder.Services.AddTransient<ITableTwoService, TableTwoService>();//2
+        builder.Services.AddTransient<INewsService, NewsService>();
 
         builder.Services.AddTransient<IProductOneTableOneOrchestrationService,
             ProductOneTableOneOrchestrationService>(); 
