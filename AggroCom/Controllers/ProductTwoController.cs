@@ -90,12 +90,20 @@ namespace AggroCom.Controllers
                 ProductTwo addProductTwo = new ProductTwo
                 {
                     Id = ProductTwo.Id,
-                    Name = ProductTwo.Name,
-                    Des = ProductTwo.Des,
-                    Description = ProductTwo.Description,
+                    TitleUz = ProductTwo.TitleUz,
+                    TitleRu = ProductTwo.TitleRu,
+                    NameUz = ProductTwo.NameUz,
+                    NameRu = ProductTwo.NameRu,
+                    DesUz = ProductTwo.DesUz,
+                    DesRu = ProductTwo.DesRu,
+                    DescriptionUZ = ProductTwo.DescriptionUZ,
+                    DescriptionRu = ProductTwo.DescriptionRu,
+                    SarfUz = ProductTwo.SarfUz,
+                    SarfRu = ProductTwo.SarfRu,
+                    ProductPicture = ProductTwo.ProductPicture,
                     ProductIcon = ProductTwo.ProductIcon,
                     ProductTwoType = ProductTwo.ProductTwoType,
-                    ProductPicture = ProductTwo.ProductPicture,
+                    TableTwos = ProductTwo.TableTwos
                 };
 
                 ProductTwo addedProductTwo = await ProductTwoService.AddProductTwoAsync(addProductTwo);

@@ -14,5 +14,7 @@ namespace AggroCom.Brokers.Storages
         ValueTask<New> SelectNewByIdAsync(int NewId);
         ValueTask<New> UpdateNewAsync(New New);
         ValueTask<New> DeleteNewAsync(New New);
+
+        ValueTask<IQueryable<New>> SelectAllNewsOrderAsync();
     }
 }

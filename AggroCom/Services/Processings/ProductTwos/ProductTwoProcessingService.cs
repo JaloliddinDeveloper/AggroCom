@@ -17,10 +17,10 @@ namespace AggroCom.Services.Processings.ProductTwos
 
         public async ValueTask<IQueryable<ProductTwo>> RetrieveAllProductTwosSuyuqAsync()=>
              (await this.productTwoService.RetrieveAllProductTwosAsync())
-                    .Where(product => product.ProductTwoType == ProductTwoType.Суюқ);
+                    .Where(product => product.ProductTwoType == ProductTwoType.Биостимулятор);
 
         public async ValueTask<IQueryable<ProductTwo>> RetrieveAllProductTwosKukunAsync()=>
              (await this.productTwoService.RetrieveAllProductTwosAsync())
-                    .Where(product => product.ProductTwoType == ProductTwoType.Кукун);
+                    .Where(product => product.ProductTwoType == ProductTwoType.Микроэлемент);
     }
 }
