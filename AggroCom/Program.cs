@@ -17,12 +17,22 @@ using AggroCom.Services.Processings.ProductTwos;
 using Microsoft.AspNetCore.Http.Features;
 using AggroCom.Services.Foundations.News;
 using AggroCom.Services.Foundations.Photos;
+using AggroCom.Services.Foundations.Contacts;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.FileProviders;
+using System.IO;
+using AggroCom.Services.Foundations.Katalogs;
 
 public class Program
 {
     public static void Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
+
+        builder.WebHost.ConfigureKestrel(options =>
+        {
+            options.Limits.MaxRequestBodySize = 524288000; 
+        });
 
         builder.Services.Configure<FormOptions>(options =>
         {
@@ -38,6 +48,9 @@ public class Program
         builder.Services.AddTransient<ITableTwoService, TableTwoService>();//2
         builder.Services.AddTransient<INewsService, NewsService>();
         builder.Services.AddTransient<IPhotoService, PhotoService>();
+        builder.Services.AddTransient<IContactService, ContactService>();
+        builder.Services.AddTransient<IKatalogService, KatalogService>();
+
 
         builder.Services.AddTransient<IProductOneTableOneOrchestrationService,
             ProductOneTableOneOrchestrationService>(); 
@@ -75,6 +88,14 @@ public class Program
             app.UseSwagger();
             app.UseSwaggerUI();
         }
+
+
+        app.UseStaticFiles(new StaticFileOptions
+        {
+            FileProvider = new PhysicalFileProvider(
+                Path.Combine(Directory.GetCurrentDirectory(), "wwwroot")),
+            RequestPath = "/files"
+        });
 
         app.UseForwardedHeaders(new ForwardedHeadersOptions
         {
