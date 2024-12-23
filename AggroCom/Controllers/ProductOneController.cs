@@ -222,5 +222,80 @@ namespace AggroCom.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpGet("Инсектоакарацидлар")]
+        public async Task<IActionResult> GetInsektoAkarasAsync()
+        {
+            try
+            {
+                var insektor = await this.productOneProcessingService.RetrieveAllProductOnesInsektorsAsync();
+
+                return Ok(insektor);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        
+        [HttpGet("Дефолиантлар")]
+        public async Task<IActionResult> GetDefoliantsAsync()
+        {
+            try
+            {
+                var def = await this.productOneProcessingService.RetrieveAllProductOnesDefolsAsync();
+
+                return Ok(def);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        
+        [HttpGet("Сиртфаолмодда")]
+        public async Task<IActionResult> GetSirtFaolsAsync()
+        {
+            try
+            {
+                var sirt = await this.productOneProcessingService.RetrieveAllProductOnesSirtFaolsAsync();
+
+                return Ok(sirt);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("Уруғдорилагичлар")]
+        public async Task<IActionResult> GetUrugdoriAsync()
+        {
+            try
+            {
+                var urdori = await this.productOneProcessingService.RetrieveAllProductOnesUrugdorisAsync();
+
+                return Ok(urdori);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        } 
+        
+        [HttpGet("Ўсимликларнипрепаратлар")]
+        public async Task<IActionResult> GetOsimlikPreAsync()
+        {
+            try
+            {
+                var pre = await this.productOneProcessingService.RetrieveAllProductOsimlikPresAsync();
+
+                return Ok(pre);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

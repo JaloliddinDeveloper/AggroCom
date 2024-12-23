@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace AggroCom.Services.Processings.ProductOnes
 {
-    public class ProductOneProcessingService: IProductOneProcessingService
+    public class ProductOneProcessingService : IProductOneProcessingService
     {
         private readonly IProductOneService productOneService;
 
@@ -25,5 +25,25 @@ namespace AggroCom.Services.Processings.ProductOnes
         public async ValueTask<IQueryable<ProductOne>> RetrieveAllProductOnesFungisetsAsync() =>
             (await this.productOneService.RetrieveAllProductOnesAsync())
                 .Where(product => product.ProductType == ProductType.Фунгицидлар);
+
+        public async ValueTask<IQueryable<ProductOne>> RetrieveAllProductOnesInsektorsAsync() =>
+            (await this.productOneService.RetrieveAllProductOnesAsync())
+                .Where(product => product.ProductType == ProductType.Инсектоакарацидлар);
+
+        public async ValueTask<IQueryable<ProductOne>> RetrieveAllProductOnesDefolsAsync() =>
+            (await this.productOneService.RetrieveAllProductOnesAsync())
+                .Where(product => product.ProductType == ProductType.Дефолиантлар);
+
+        public async ValueTask<IQueryable<ProductOne>> RetrieveAllProductOnesSirtFaolsAsync() =>
+            (await this.productOneService.RetrieveAllProductOnesAsync())
+                .Where(product => product.ProductType == ProductType.Сиртфаолмодда);
+
+        public async ValueTask<IQueryable<ProductOne>> RetrieveAllProductOnesUrugdorisAsync() =>
+            (await this.productOneService.RetrieveAllProductOnesAsync())
+                .Where(product => product.ProductType == ProductType.Уруғдорилагичлар);
+
+        public async ValueTask<IQueryable<ProductOne>> RetrieveAllProductOsimlikPresAsync() =>
+            (await this.productOneService.RetrieveAllProductOnesAsync())
+                .Where(product => product.ProductType == ProductType.Ўсимликларнипрепаратлар);
     }
 }
