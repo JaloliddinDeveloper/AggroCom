@@ -12,8 +12,8 @@ public class TableOne
     public string BegonaQarshiRu { get; set; }
     public string SarfMeyoriUz { get; set; }
     public string SarfMeyoriRu { get; set; }
-    public string CheklovlarUz { get; set; }
-    public string CheklovlarRu { get; set; }
-    public int MavsumNechta { get; set; }
+    public string BirgaSarfUz { get; set; }
+    public string BirgaSarfRu { get; set; }
+    public string Onlsum  { get; set; }
     public int ProductOneId { get; set; }
 }

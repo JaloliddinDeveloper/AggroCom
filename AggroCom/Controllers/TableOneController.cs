@@ -34,12 +34,11 @@ namespace AggroCom.Controllers
                     BegonaQarshiRu = TableOne.BegonaQarshiRu,
                     SarfMeyoriUz = TableOne.SarfMeyoriUz,
                     SarfMeyoriRu = TableOne.SarfMeyoriRu,
-                    CheklovlarUz = TableOne.CheklovlarUz,
-                    CheklovlarRu = TableOne.CheklovlarRu,
-                    MavsumNechta = TableOne.MavsumNechta,
+                    BirgaSarfUz = TableOne.BirgaSarfUz,
+                    BirgaSarfRu = TableOne.BirgaSarfRu,
+                    Onlsum = TableOne.Onlsum,
                     ProductOneId = TableOne.ProductOneId
                 };
-
                 return await this.tableOneService.AddTableOneAsync(addTableOne);
             }
             catch (Exception exception)
