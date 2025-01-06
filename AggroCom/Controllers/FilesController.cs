@@ -35,40 +35,60 @@ namespace AggroCom.Controllers
 
         [HttpPost("upload")]
         [DisableRequestSizeLimit]
-        public async Task<IActionResult> UploadFile(IFormFile file)
+        public async Task<IActionResult> UploadFile(IFormFile picture, IFormFile file)
         {
             if (file == null || file.Length == 0)
             {
-                return BadRequest("Fayl topilmadi yoki bo'sh.");
+                return BadRequest("Main file not found or empty.");
             }
 
-            // Faylni saqlash yo'li
-            var uploadPath = Path.Combine(this.environment.WebRootPath, "files");
-            if (!Directory.Exists(uploadPath))
+            if (picture == null || picture.Length == 0)
             {
-                Directory.CreateDirectory(uploadPath);
+                return BadRequest("Picture file not found or empty.");
             }
 
-            var filePath = Path.Combine(uploadPath, file.FileName);
-            using (var stream = new FileStream(filePath, FileMode.Create))
+            // Save main file to wwwroot/files
+            var filePath = Path.Combine(this.environment.WebRootPath, "files");
+            if (!Directory.Exists(filePath))
+            {
+                Directory.CreateDirectory(filePath);
+            }
+
+            var mainFilePath = Path.Combine(filePath, file.FileName);
+            using (var stream = new FileStream(mainFilePath, FileMode.Create))
             {
                 await file.CopyToAsync(stream);
             }
 
-            // Fayl metadata'sini bazaga yozish
+            // Save picture to wwwroot/images
+            var imagePath = Path.Combine(this.environment.WebRootPath, "images");
+            if (!Directory.Exists(imagePath))
+            {
+                Directory.CreateDirectory(imagePath);
+            }
+
+            var pictureFilePath = Path.Combine(imagePath, picture.FileName);
+            using (var stream = new FileStream(pictureFilePath, FileMode.Create))
+            {
+                await picture.CopyToAsync(stream);
+            }
+
+            // Create file metadata record
             var fileRecord = new Katalog
             {
                 FileName = file.FileName,
-                FilePath = $"/files/{file.FileName}",
+                FilePath = $"/files/{file.FileName}", // Path for accessing the main file
+                FilePicture = $"/images/{picture.FileName}", // Path for accessing the picture
                 FileSize = file.Length
             };
 
-            // Asynchronous saqlash
+            // Save metadata to the database asynchronously
             await this.storageBroker.InsertKatalogAsync(fileRecord);
 
-            // Natijani Created statusida qaytarish
+            // Return the result with Created status
             return Created(fileRecord);
         }
+
 
 
         [HttpGet]
