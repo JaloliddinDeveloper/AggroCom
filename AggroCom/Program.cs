@@ -31,7 +31,12 @@ public class Program
 
         builder.WebHost.ConfigureKestrel(options =>
         {
-            options.Limits.MaxRequestBodySize = 524288000; 
+            options.Limits.MaxRequestBodySize = 524288000;
+        });
+
+        builder.Services.Configure<FormOptions>(options =>
+        {
+            options.MultipartBodyLengthLimit = 50 * 1024 * 1024;
         });
 
         builder.Services.Configure<FormOptions>(options =>
@@ -41,28 +46,11 @@ public class Program
 
         builder.Services.AddControllers();
 
-        builder.Services.AddTransient<IStorageBroker, StorageBroker>();//0
-        builder.Services.AddTransient<IProductOneService, ProductOneService>();//1
-        builder.Services.AddTransient<IProductTwoService, ProductTwoService>();//2
-        builder.Services.AddTransient<ITableOneService, TableOneService>();//1
-        builder.Services.AddTransient<ITableTwoService, TableTwoService>();//2
-        builder.Services.AddTransient<INewsService, NewsService>();
-        builder.Services.AddTransient<IPhotoService, PhotoService>();
-        builder.Services.AddTransient<IContactService, ContactService>();
-        builder.Services.AddTransient<IKatalogService, KatalogService>();
+        BrokersMethods(builder);
 
+        FoundationsServicesMethod(builder);
 
-        builder.Services.AddTransient<IProductOneTableOneOrchestrationService,
-            ProductOneTableOneOrchestrationService>(); 
-        
-        builder.Services.AddTransient<IProductTwoTableTwoOrchestrationService,
-            ProductTwoTableTwoOrchestrationService>();
-
-        builder.Services.AddTransient<IProductOneProcessingService,
-            ProductOneProcessingService>();
-        
-        builder.Services.AddTransient<IProductTwoProcessingService,
-            ProductTwoProcessingService>();
+        OrchestrationMethods(builder);
 
         builder.Services.AddEndpointsApiExplorer();
 
@@ -108,5 +96,37 @@ public class Program
         app.MapControllers();
 
         app.Run();
+    }
+
+    private static void OrchestrationMethods(WebApplicationBuilder builder)
+    {
+        builder.Services.AddTransient<IProductOneTableOneOrchestrationService,
+            ProductOneTableOneOrchestrationService>();
+
+        builder.Services.AddTransient<IProductTwoTableTwoOrchestrationService,
+            ProductTwoTableTwoOrchestrationService>();
+
+        builder.Services.AddTransient<IProductOneProcessingService,
+            ProductOneProcessingService>();
+
+        builder.Services.AddTransient<IProductTwoProcessingService,
+            ProductTwoProcessingService>();
+    }
+
+    private static void FoundationsServicesMethod(WebApplicationBuilder builder)
+    {
+        builder.Services.AddTransient<IProductOneService, ProductOneService>();
+        builder.Services.AddTransient<IProductTwoService, ProductTwoService>();
+        builder.Services.AddTransient<ITableOneService, TableOneService>();
+        builder.Services.AddTransient<ITableTwoService, TableTwoService>();
+        builder.Services.AddTransient<INewsService, NewsService>();
+        builder.Services.AddTransient<IPhotoService, PhotoService>();
+        builder.Services.AddTransient<IContactService, ContactService>();
+        builder.Services.AddTransient<IKatalogService, KatalogService>();
+    }
+
+    private static void BrokersMethods(WebApplicationBuilder builder)
+    {
+        builder.Services.AddTransient<IStorageBroker, StorageBroker>();
     }
 }

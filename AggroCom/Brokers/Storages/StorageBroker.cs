@@ -24,8 +24,10 @@ namespace AggroCom.Brokers.Storages
             string connectionString = this.configuration
                 .GetConnectionString("DefaultConnection");
 
-            optionsBuilder.UseMySql(connectionString,
-                new MySqlServerVersion(new Version(8, 0, 39)));
+            optionsBuilder.UseSqlServer(connectionString);
+
+            //optionsBuilder.UseMySql(connectionString,
+            //    new MySqlServerVersion(new Version(8, 0, 39)));
         }
 
         private async ValueTask<T> InsertAsync<T>(T @object)
