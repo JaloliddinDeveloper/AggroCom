@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace AggroCom.Brokers.Storages
 {
-    public partial class StorageBroker:DbContext,IStorageBroker
+    public partial class StorageBroker : DbContext, IStorageBroker
     {
         private readonly IConfiguration configuration;
 
@@ -21,13 +21,7 @@ namespace AggroCom.Brokers.Storages
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            string connectionString = this.configuration
-                .GetConnectionString("DefaultConnection");
-
-            optionsBuilder.UseSqlServer(connectionString);
-
-            //optionsBuilder.UseMySql(connectionString,
-            //    new MySqlServerVersion(new Version(8, 0, 39)));
+           optionsBuilder.UseSqlite("Data Source=AggroCom.db");
         }
 
         private async ValueTask<T> InsertAsync<T>(T @object)
