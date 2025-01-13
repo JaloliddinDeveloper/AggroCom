@@ -3,7 +3,6 @@
 // ----------------------------------------------------------------------------------
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -21,7 +20,12 @@ namespace AggroCom.Brokers.Storages
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-           optionsBuilder.UseSqlite("Data Source=AggroCom.db");
+
+            string connection =
+                this.configuration.GetConnectionString("DefaultConnection");
+
+            optionsBuilder.UseMySql(connection,
+                ServerVersion.AutoDetect(connection));
         }
 
         private async ValueTask<T> InsertAsync<T>(T @object)
