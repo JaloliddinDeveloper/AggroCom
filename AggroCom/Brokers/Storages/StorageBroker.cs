@@ -27,7 +27,7 @@ namespace AggroCom.Brokers.Storages
             optionsBuilder.UseMySql(connection,
                 ServerVersion.AutoDetect(connection));
         }
-
+           
         private async ValueTask<T> InsertAsync<T>(T @object)
         {
             this.Entry(@object).State = EntityState.Added;
