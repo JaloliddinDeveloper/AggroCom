@@ -31,27 +31,28 @@ public class Program
 
         builder.WebHost.ConfigureKestrel(options =>
         {
-            options.Limits.MaxRequestBodySize = 524288000;
+            options.Limits.MaxRequestBodySize = 100 * 1024 * 1024;
         });
 
         builder.Services.Configure<FormOptions>(options =>
         {
-            options.MultipartBodyLengthLimit = 50 * 1024 * 1024;
+            options.MultipartBodyLengthLimit = 100 * 1024 * 1024;
         });
+
 
         builder.Services.Configure<FormOptions>(options =>
         {
-            options.MultipartBodyLengthLimit = 52428800;
+            options.MultipartBodyLengthLimit = 100 * 1024 * 1024;
         });
 
         builder.Services.Configure<KestrelServerOptions>(options =>
         {
-            options.Limits.MaxRequestBodySize = long.MaxValue; // Unlimited size
+            options.Limits.MaxRequestBodySize = 100 * 1024 * 1024; 
         });
 
         builder.Services.Configure<FormOptions>(options =>
         {
-            options.MultipartBodyLengthLimit = long.MaxValue; // Unlimited size
+            options.MultipartBodyLengthLimit = 100 * 1024 * 1024;
         });
 
         builder.Services.AddControllers();
