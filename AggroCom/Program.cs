@@ -19,9 +19,9 @@ using AggroCom.Services.Foundations.News;
 using AggroCom.Services.Foundations.Photos;
 using AggroCom.Services.Foundations.Contacts;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.FileProviders;
-using System.IO;
 using AggroCom.Services.Foundations.Katalogs;
+using FluentAssertions.Common;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 
 public class Program
 {
@@ -42,6 +42,16 @@ public class Program
         builder.Services.Configure<FormOptions>(options =>
         {
             options.MultipartBodyLengthLimit = 52428800;
+        });
+
+        builder.Services.Configure<KestrelServerOptions>(options =>
+        {
+            options.Limits.MaxRequestBodySize = long.MaxValue; // Unlimited size
+        });
+
+        builder.Services.Configure<FormOptions>(options =>
+        {
+            options.MultipartBodyLengthLimit = long.MaxValue; // Unlimited size
         });
 
         builder.Services.AddControllers();
