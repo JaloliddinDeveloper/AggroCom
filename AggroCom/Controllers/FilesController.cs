@@ -20,16 +20,14 @@ namespace AggroCom.Controllers
     public class FilesController:RESTFulController
     {
         private readonly IStorageBroker storageBroker; 
-        private readonly IWebHostEnvironment environment;
         private readonly IKatalogService katalogService;
+        private readonly string uploadsFolder = "/var/www/files";
 
         public FilesController(
             IStorageBroker storageBroker,
-            IWebHostEnvironment environment, 
             IKatalogService katalogService)
         {
             this.storageBroker = storageBroker;
-            this.environment = environment;
             this.katalogService = katalogService;
         }
 
@@ -47,49 +45,35 @@ namespace AggroCom.Controllers
                 return BadRequest("Picture file not found or empty.");
             }
 
-            // Save main file to wwwroot/files
-            var filePath = Path.Combine(this.environment.WebRootPath, "files");
-            if (!Directory.Exists(filePath))
+            if (!Directory.Exists(uploadsFolder))
             {
-                Directory.CreateDirectory(filePath);
+                Directory.CreateDirectory(uploadsFolder);
             }
 
-            var mainFilePath = Path.Combine(filePath, file.FileName);
+            var mainFilePath = Path.Combine(uploadsFolder, file.FileName);
             using (var stream = new FileStream(mainFilePath, FileMode.Create))
             {
                 await file.CopyToAsync(stream);
             }
 
-            // Save picture to wwwroot/images
-            var imagePath = Path.Combine(this.environment.WebRootPath, "images");
-            if (!Directory.Exists(imagePath))
-            {
-                Directory.CreateDirectory(imagePath);
-            }
-
-            var pictureFilePath = Path.Combine(imagePath, picture.FileName);
+            var pictureFilePath = Path.Combine(uploadsFolder, picture.FileName);
             using (var stream = new FileStream(pictureFilePath, FileMode.Create))
             {
                 await picture.CopyToAsync(stream);
             }
 
-            // Create file metadata record
             var fileRecord = new Katalog
             {
                 FileName = file.FileName,
-                FilePath = $"/files/{file.FileName}", // Path for accessing the main file
-                FilePicture = $"/images/{picture.FileName}", // Path for accessing the picture
+                FilePath = $"/files/{file.FileName}", 
+                FilePicture = $"/files/{picture.FileName}", 
                 FileSize = file.Length
             };
 
-            // Save metadata to the database asynchronously
             await this.storageBroker.InsertKatalogAsync(fileRecord);
 
-            // Return the result with Created status
             return Created(fileRecord);
         }
-
-
 
         [HttpGet]
         public async Task<IActionResult> GetFiles()

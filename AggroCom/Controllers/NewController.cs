@@ -4,7 +4,6 @@
 using AggroCom.Brokers.Storages;
 using AggroCom.Models.Foundations.News;
 using AggroCom.Services.Foundations.News;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RESTFulSense.Controllers;
@@ -19,16 +18,14 @@ namespace AggroCom.Controllers
     [Route("[controller]")]
     public class NewController: RESTFulController
     {
-        private readonly IWebHostEnvironment webHostEnvironment;
         private readonly IStorageBroker storageBroker;
         private readonly INewsService newsService;
+        private readonly string uploadsFolder = "/var/www/files";
 
         public NewController(
-            IWebHostEnvironment webHostEnvironment, 
             IStorageBroker storageBroker, 
             INewsService newsService)
         {
-            this.webHostEnvironment = webHostEnvironment;
             this.storageBroker = storageBroker;
             this.newsService = newsService;
         }
@@ -44,7 +41,6 @@ namespace AggroCom.Controllers
                 if (newPicture == null || newPicture.Length == 0)
                     return BadRequest("NewPicture is required.");
 
-                string uploadsFolder = Path.Combine(this.webHostEnvironment.WebRootPath, "images");
                 if (!Directory.Exists(uploadsFolder))
                 {
                     Directory.CreateDirectory(uploadsFolder);
@@ -58,10 +54,10 @@ namespace AggroCom.Controllers
                     await newPicture.CopyToAsync(fileStream);
                 }
 
-                newModel.NewPicture = $"images/{fileName}";
+                newModel.NewPicture = $"/files/{fileName}";
                 newModel.Date = DateTimeOffset.Now;
 
-               await this.storageBroker.InsertNewAsync(newModel);
+                await this.storageBroker.InsertNewAsync(newModel);
 
                 return Created(newModel);
             }

@@ -21,33 +21,30 @@ namespace AggroCom.Controllers
     public class ProductTwoController : RESTFulController
     {
         private readonly IProductTwoService ProductTwoService;
-        private readonly IWebHostEnvironment webHostEnvironment;
+        private readonly string uploadsFolder = "/var/www/files";
         private readonly IProductTwoProcessingService ProductTwoProcessingService;
         private readonly IProductTwoTableTwoOrchestrationService
             productTwoTableTwoOrchestrationService;
 
         public ProductTwoController(
             IProductTwoService productTwoService, 
-            IWebHostEnvironment webHostEnvironment, 
             IProductTwoProcessingService productTwoProcessingService,
             IProductTwoTableTwoOrchestrationService 
             productTwoTableTwoOrchestrationService)
         {
             ProductTwoService = productTwoService;
-            this.webHostEnvironment = webHostEnvironment;
             ProductTwoProcessingService = productTwoProcessingService;
             this.productTwoTableTwoOrchestrationService = 
                 productTwoTableTwoOrchestrationService;
         }
 
         [HttpPost]
-        public async ValueTask<ActionResult<ProductTwo>> PostProductTwoAsync([FromForm] ProductTwo ProductTwo, IFormFile picture, IFormFile icon)
+        public async ValueTask<ActionResult<ProductTwo>> PostProductTwoAsync([FromForm] ProductTwo productTwo, IFormFile picture, IFormFile icon)
         {
             try
             {
-                if (ProductTwo == null) return BadRequest("Product data is missing.");
+                if (productTwo == null) return BadRequest("Product data is missing.");
 
-                string uploadsFolder = Path.Combine(webHostEnvironment.WebRootPath, "images");
                 if (!Directory.Exists(uploadsFolder))
                 {
                     Directory.CreateDirectory(uploadsFolder);
@@ -63,7 +60,7 @@ namespace AggroCom.Controllers
                         await picture.CopyToAsync(fileStream);
                     }
 
-                    ProductTwo.ProductPicture = $"images/{fileName}";
+                    productTwo.ProductPicture = $"/files/{fileName}";
                 }
                 else
                 {
@@ -80,7 +77,7 @@ namespace AggroCom.Controllers
                         await icon.CopyToAsync(iconStream);
                     }
 
-                    ProductTwo.ProductIcon = $"images/{iconFileName}";
+                    productTwo.ProductIcon = $"/files/{iconFileName}";
                 }
                 else
                 {
@@ -89,28 +86,27 @@ namespace AggroCom.Controllers
 
                 ProductTwo addProductTwo = new ProductTwo
                 {
-                    Id = ProductTwo.Id,
-                    TitleUz = ProductTwo.TitleUz,
-                    TitleRu = ProductTwo.TitleRu,
-                    NameUz = ProductTwo.NameUz,
-                    NameRu = ProductTwo.NameRu,
-                    DesUz = ProductTwo.DesUz,
-                    DesRu = ProductTwo.DesRu,
-                    DescriptionUZ = ProductTwo.DescriptionUZ,
-                    DescriptionRu = ProductTwo.DescriptionRu,
-                    SarfUz = ProductTwo.SarfUz,
-                    SarfRu = ProductTwo.SarfRu,
-                    ProductPicture = ProductTwo.ProductPicture,
-                    ProductIcon = ProductTwo.ProductIcon,
-                    ProductTwoType = ProductTwo.ProductTwoType,
-                    TableTwos = ProductTwo.TableTwos
+                    Id = productTwo.Id,
+                    TitleUz = productTwo.TitleUz,
+                    TitleRu = productTwo.TitleRu,
+                    NameUz = productTwo.NameUz,
+                    NameRu = productTwo.NameRu,
+                    DesUz = productTwo.DesUz,
+                    DesRu = productTwo.DesRu,
+                    DescriptionUZ = productTwo.DescriptionUZ,
+                    DescriptionRu = productTwo.DescriptionRu,
+                    SarfUz = productTwo.SarfUz,
+                    SarfRu = productTwo.SarfRu,
+                    ProductPicture = productTwo.ProductPicture,
+                    ProductIcon = productTwo.ProductIcon,
+                    ProductTwoType = productTwo.ProductTwoType,
+                    TableTwos = productTwo.TableTwos
                 };
 
                 ProductTwo addedProductTwo = await ProductTwoService.AddProductTwoAsync(addProductTwo);
 
-                return Created(addedProductTwo);
+                return CreatedAtAction(nameof(PostProductTwoAsync), new { id = addedProductTwo.Id }, addedProductTwo);
             }
-
             catch (Exception ex)
             {
                 return BadRequest($"Error: {ex.Message}");

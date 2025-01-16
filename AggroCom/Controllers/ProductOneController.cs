@@ -5,7 +5,6 @@ using AggroCom.Models.Foundations.ProductOnes;
 using AggroCom.Services.Foundations.ProductOnes;
 using AggroCom.Services.Orchestrations.ProductOneTableOneOrchestrationServices;
 using AggroCom.Services.Processings.ProductOnes;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RESTFulSense.Controllers;
@@ -21,20 +20,18 @@ namespace AggroCom.Controllers
     public class ProductOneController : RESTFulController
     {
         private readonly IProductOneService productOneService;
-        private readonly IWebHostEnvironment webHostEnvironment;
+        private readonly string uploadsFolder = "/var/www/files";
         private readonly IProductOneProcessingService productOneProcessingService;
         private readonly IProductOneTableOneOrchestrationService 
             productOneTableOneOrchestrationService;
 
         public ProductOneController(
             IProductOneService productOneService, 
-            IWebHostEnvironment webHostEnvironment, 
             IProductOneProcessingService productOneProcessingService, 
             IProductOneTableOneOrchestrationService 
             productOneTableOneOrchestrationService)
         {
             this.productOneService = productOneService;
-            this.webHostEnvironment = webHostEnvironment;
             this.productOneProcessingService = productOneProcessingService;
             this.productOneTableOneOrchestrationService = 
                 productOneTableOneOrchestrationService;
@@ -47,7 +44,6 @@ namespace AggroCom.Controllers
             {
                 if (productOne == null) return BadRequest("Product data is missing.");
 
-                string uploadsFolder = Path.Combine(webHostEnvironment.WebRootPath, "images");
                 if (!Directory.Exists(uploadsFolder))
                 {
                     Directory.CreateDirectory(uploadsFolder);
@@ -63,7 +59,7 @@ namespace AggroCom.Controllers
                         await picture.CopyToAsync(fileStream);
                     }
 
-                    productOne.ProductPicture = $"images/{fileName}";
+                    productOne.ProductPicture = $"/files/{fileName}";
                 }
                 else
                 {
@@ -80,7 +76,7 @@ namespace AggroCom.Controllers
                         await icon.CopyToAsync(iconStream);
                     }
 
-                    productOne.IconUrl = $"images/{iconFileName}";
+                    productOne.IconUrl = $"/files/{iconFileName}";
                 }
                 else
                 {
@@ -113,9 +109,8 @@ namespace AggroCom.Controllers
 
                 ProductOne addedProductOne = await productOneService.AddProductOneAsync(addProductOne);
 
-                return Created(addedProductOne);
+                return CreatedAtAction(nameof(PostProductOneAsync), new { id = addedProductOne.Id }, addedProductOne);
             }
-
             catch (Exception ex)
             {
                 return BadRequest($"Error: {ex.Message}");
@@ -154,7 +149,6 @@ namespace AggroCom.Controllers
             {
                 return BadRequest(ex.Message);
             }
-           
         }
 
         [HttpDelete("{productOneId}")]
