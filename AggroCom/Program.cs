@@ -14,14 +14,12 @@ using AggroCom.Services.Foundations.ProductTwos;
 using AggroCom.Services.Foundations.TableTwos;
 using AggroCom.Services.Orchestrations.ProductTwoTableTwoOrchestrations;
 using AggroCom.Services.Processings.ProductTwos;
-using Microsoft.AspNetCore.Http.Features;
 using AggroCom.Services.Foundations.News;
 using AggroCom.Services.Foundations.Photos;
 using AggroCom.Services.Foundations.Contacts;
 using Microsoft.AspNetCore.Hosting;
 using AggroCom.Services.Foundations.Katalogs;
-using FluentAssertions.Common;
-using Microsoft.AspNetCore.Server.Kestrel.Core;
+using Microsoft.AspNetCore.Http.Features;
 
 public class Program
 {
@@ -31,28 +29,12 @@ public class Program
 
         builder.WebHost.ConfigureKestrel(options =>
         {
-            options.Limits.MaxRequestBodySize = 100 * 1024 * 1024;
+            options.Limits.MaxRequestBodySize = 200 * 1024 * 1024; 
         });
 
         builder.Services.Configure<FormOptions>(options =>
         {
-            options.MultipartBodyLengthLimit = 100 * 1024 * 1024;
-        });
-
-
-        builder.Services.Configure<FormOptions>(options =>
-        {
-            options.MultipartBodyLengthLimit = 100 * 1024 * 1024;
-        });
-
-        builder.Services.Configure<KestrelServerOptions>(options =>
-        {
-            options.Limits.MaxRequestBodySize = 100 * 1024 * 1024; 
-        });
-
-        builder.Services.Configure<FormOptions>(options =>
-        {
-            options.MultipartBodyLengthLimit = 100 * 1024 * 1024;
+            options.MultipartBodyLengthLimit = 200 * 1024 * 1024; 
         });
 
         builder.Services.AddControllers();
@@ -69,7 +51,6 @@ public class Program
 
         builder.Services.AddCors(options =>
         {
-
             options.AddPolicy("AllowAll", policy =>
             {
                 policy.AllowAnyOrigin()
