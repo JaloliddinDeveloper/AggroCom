@@ -109,7 +109,7 @@ namespace AggroCom.Controllers
 
                 ProductOne addedProductOne = await productOneService.AddProductOneAsync(addProductOne);
 
-                return CreatedAtAction(nameof(PostProductOneAsync), new { id = addedProductOne.Id }, addedProductOne);
+                return Created(addedProductOne);
             }
             catch (Exception ex)
             {
