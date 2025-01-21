@@ -105,7 +105,7 @@ namespace AggroCom.Controllers
 
                 ProductTwo addedProductTwo = await ProductTwoService.AddProductTwoAsync(addProductTwo);
 
-                return CreatedAtAction(nameof(PostProductTwoAsync), new { id = addedProductTwo.Id }, addedProductTwo);
+                return Created(addedProductTwo);
             }
             catch (Exception ex)
             {
