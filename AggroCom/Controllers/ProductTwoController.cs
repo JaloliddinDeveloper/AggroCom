@@ -22,6 +22,7 @@ namespace AggroCom.Controllers
     {
         private readonly IProductTwoService ProductTwoService;
         private readonly string uploadsFolder = "/var/www/files";
+        private readonly string baseUrl = "http://165.22.111.4";
         private readonly IProductTwoProcessingService ProductTwoProcessingService;
         private readonly IProductTwoTableTwoOrchestrationService
             productTwoTableTwoOrchestrationService;
@@ -39,11 +40,17 @@ namespace AggroCom.Controllers
         }
 
         [HttpPost]
-        public async ValueTask<ActionResult<ProductTwo>> PostProductTwoAsync([FromForm] ProductTwo productTwo, IFormFile picture, IFormFile icon)
+        public async ValueTask<ActionResult<ProductTwo>> PostProductTwoAsync(
+        [FromForm] ProductTwo productTwo,
+        IFormFile picture,
+        IFormFile icon)
         {
             try
             {
-                if (productTwo == null) return BadRequest("Product data is missing.");
+                if (productTwo == null)
+                {
+                    return BadRequest("Product data is missing.");
+                }
 
                 if (!Directory.Exists(uploadsFolder))
                 {
@@ -60,7 +67,7 @@ namespace AggroCom.Controllers
                         await picture.CopyToAsync(fileStream);
                     }
 
-                    productTwo.ProductPicture = $"/files/{fileName}";
+                    productTwo.ProductPicture = $"{baseUrl}/files/{fileName}";
                 }
                 else
                 {
@@ -77,14 +84,14 @@ namespace AggroCom.Controllers
                         await icon.CopyToAsync(iconStream);
                     }
 
-                    productTwo.ProductIcon = $"/files/{iconFileName}";
+                    productTwo.ProductIcon = $"{baseUrl}/files/{iconFileName}";
                 }
                 else
                 {
                     return BadRequest("Icon is required.");
                 }
 
-                ProductTwo addProductTwo = new ProductTwo
+                ProductTwo newProductTwo = new ProductTwo
                 {
                     Id = productTwo.Id,
                     TitleUz = productTwo.TitleUz,
@@ -103,13 +110,13 @@ namespace AggroCom.Controllers
                     TableTwos = productTwo.TableTwos
                 };
 
-                ProductTwo addedProductTwo = await ProductTwoService.AddProductTwoAsync(addProductTwo);
+                ProductTwo addedProductTwo = await this.ProductTwoService.AddProductTwoAsync(newProductTwo);
 
                 return Created(addedProductTwo);
             }
             catch (Exception ex)
             {
-                return BadRequest($"Error: {ex.Message}");
+                return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
 
