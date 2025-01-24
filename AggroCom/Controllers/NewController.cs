@@ -21,6 +21,7 @@ namespace AggroCom.Controllers
         private readonly IStorageBroker storageBroker;
         private readonly INewsService newsService;
         private readonly string uploadsFolder = "/var/www/files";
+        private readonly string baseUrl = "http://139.59.226.229";
 
         public NewController(
             IStorageBroker storageBroker, 
@@ -54,7 +55,8 @@ namespace AggroCom.Controllers
                     await newPicture.CopyToAsync(fileStream);
                 }
 
-                newModel.NewPicture = $"/files/{fileName}";
+                string fileUrl = $"{baseUrl}/files/{fileName}";
+                newModel.NewPicture = fileUrl;
                 newModel.Date = DateTimeOffset.Now;
 
                 await this.storageBroker.InsertNewAsync(newModel);
