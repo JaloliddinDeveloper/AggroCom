@@ -21,7 +21,7 @@ namespace AggroCom.Controllers
         private readonly IStorageBroker storageBroker;
         private readonly INewsService newsService;
         private readonly string uploadsFolder = "/var/www/files";
-        private readonly string baseUrl = "http://139.59.226.229";
+        private readonly string baseUrl = "http://165.22.111.4";
 
         public NewController(
             IStorageBroker storageBroker, 
