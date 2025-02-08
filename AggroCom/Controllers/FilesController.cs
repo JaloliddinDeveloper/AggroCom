@@ -3,9 +3,7 @@
 // ----------------------------------------------------------------------------------
 using AggroCom.Brokers.Storages;
 using AggroCom.Models.Foundations.Katalogs;
-using AggroCom.Models.Foundations.News;
 using AggroCom.Services.Foundations.Katalogs;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RESTFulSense.Controllers;
