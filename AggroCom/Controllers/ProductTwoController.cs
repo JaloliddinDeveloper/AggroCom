@@ -22,7 +22,7 @@ namespace AggroCom.Controllers
     {
         private readonly IProductTwoService ProductTwoService;
         private readonly string uploadsFolder = "/var/www/files";
-        private readonly string baseUrl = "http://139.59.112.48";
+        private readonly string baseUrl = "http://143.198.217.116";
         private readonly IProductTwoProcessingService ProductTwoProcessingService;
         private readonly IProductTwoTableTwoOrchestrationService
             productTwoTableTwoOrchestrationService;
