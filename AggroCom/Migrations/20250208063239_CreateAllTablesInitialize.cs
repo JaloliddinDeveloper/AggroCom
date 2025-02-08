@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace AggroCom.Migrations
 {
     /// <inheritdoc />
-    public partial class CreateAllTablesinitialize : Migration
+    public partial class CreateAllTablesInitialize : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
