@@ -1,4 +1,4 @@
-// ---------------------------------------------------------------------------------- 
+﻿// ---------------------------------------------------------------------------------- 
 // Copyright (c) The Standard Organization, a coalition of the Good-Hearted Engineers 
 // ----------------------------------------------------------------------------------
 using Microsoft.AspNetCore.HttpOverrides;
@@ -27,33 +27,42 @@ public class Program
     {
         var builder = WebApplication.CreateBuilder(args);
 
+        // Max request body size for large file uploads (e.g. video, images)
         builder.WebHost.ConfigureKestrel(options =>
         {
-            options.Limits.MaxRequestBodySize = 200 * 1024 * 1024; 
+            options.Limits.MaxRequestBodySize = 200 * 1024 * 1024; // 200MB
         });
 
+        // Set limit for file upload in the form
         builder.Services.Configure<FormOptions>(options =>
         {
-            options.MultipartBodyLengthLimit = 200 * 1024 * 1024; 
+            options.MultipartBodyLengthLimit = 200 * 1024 * 1024; // 200MB
         });
 
         builder.Services.AddControllers();
 
+        // Add services (Brokers, Foundations, Orchestrations)
         BrokersMethods(builder);
-
         FoundationsServicesMethod(builder);
-
         OrchestrationMethods(builder);
 
         builder.Services.AddEndpointsApiExplorer();
-
         builder.Services.AddSwaggerGen();
 
+        // Enable CORS for all origins (including Netlify and others)
         builder.Services.AddCors(options =>
         {
             options.AddPolicy("AllowAll", policy =>
             {
-                policy.AllowAnyOrigin()
+                policy.AllowAnyOrigin()  // Barcha manbalar uchun ochiq
+                      .AllowAnyMethod()
+                      .AllowAnyHeader();
+            });
+
+            // CORS policy for Netlify frontend specifically
+            options.AddPolicy("AllowNetlify", policy =>
+            {
+                policy.WithOrigins("https://greensayt.netlify.app")  // Netlify frontend URL
                       .AllowAnyMethod()
                       .AllowAnyHeader();
             });
@@ -61,27 +70,40 @@ public class Program
 
         var app = builder.Build();
 
+        // Use static files for serving resources like images or CSS
         app.UseStaticFiles();
 
+        // Use Swagger for API documentation in development and production environments
         if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
         {
             app.UseSwagger();
             app.UseSwaggerUI();
         }
 
+        // Forward headers if behind a reverse proxy like Nginx or load balancer
         app.UseForwardedHeaders(new ForwardedHeadersOptions
         {
             ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
         });
 
+        // Ensure all requests are redirected to HTTPS
         app.UseHttpsRedirection();
-        app.UseCors("AllowAll");
+
+        // Apply CORS policies for API
+        app.UseCors("AllowAll");  // Allow all origins
+        app.UseCors("AllowNetlify");  // Allow Netlify frontend
+
+        // Enable authorization middleware (if required)
         app.UseAuthorization();
+
+        // Map controllers to handle API requests
         app.MapControllers();
 
+        // Run the application
         app.Run();
     }
 
+    // Add orchestrations services
     private static void OrchestrationMethods(WebApplicationBuilder builder)
     {
         builder.Services.AddTransient<IProductOneTableOneOrchestrationService,
@@ -97,6 +119,7 @@ public class Program
             ProductTwoProcessingService>();
     }
 
+    // Add foundation services
     private static void FoundationsServicesMethod(WebApplicationBuilder builder)
     {
         builder.Services.AddTransient<IProductOneService, ProductOneService>();
@@ -109,8 +132,10 @@ public class Program
         builder.Services.AddTransient<IKatalogService, KatalogService>();
     }
 
+    // Add brokers services
     private static void BrokersMethods(WebApplicationBuilder builder)
     {
         builder.Services.AddTransient<IStorageBroker, StorageBroker>();
     }
 }
+

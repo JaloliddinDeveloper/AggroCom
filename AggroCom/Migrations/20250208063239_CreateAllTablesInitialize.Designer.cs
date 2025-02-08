@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AggroCom.Migrations
 {
     [DbContext(typeof(StorageBroker))]
-    [Migration("20250124150743_CreateAllTablesinitialize")]
-    partial class CreateAllTablesinitialize
+    [Migration("20250208063239_CreateAllTablesInitialize")]
+    partial class CreateAllTablesInitialize
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
