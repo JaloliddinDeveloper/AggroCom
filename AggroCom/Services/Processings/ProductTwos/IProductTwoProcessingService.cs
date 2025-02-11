@@ -9,8 +9,8 @@ namespace AggroCom.Services.Processings.ProductTwos
 {
     public interface IProductTwoProcessingService
     {
-        ValueTask<IQueryable<ProductTwo>> RetrieveAllProductTwosБиостимуляторAsync();
-        ValueTask<IQueryable<ProductTwo>> RetrieveAllProductTwosМикроэлементAsync();
-        ValueTask<IQueryable<ProductTwo>> RetrieveAllProductTwosНпкAsync();
+        ValueTask<IQueryable<ProductTwo>> RetrieveAllProductTwosBiostimulyatorAsync();
+        ValueTask<IQueryable<ProductTwo>> RetrieveAllProductTwosMikroelementAsync();
+        ValueTask<IQueryable<ProductTwo>> RetrieveAllProductTwosNpkAsync();
     }
 }

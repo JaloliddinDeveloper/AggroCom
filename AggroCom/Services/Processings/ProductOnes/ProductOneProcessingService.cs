@@ -20,30 +20,30 @@ namespace AggroCom.Services.Processings.ProductOnes
 
         public async ValueTask<IQueryable<ProductOne>> RetrieveAllProductOnesGepbisetsAsync() =>
              (await this.productOneService.RetrieveAllProductOnesAsync())
-                    .Where(product => product.ProductType == ProductType.Гербицидлар);
+                    .Where(product => product.ProductType == ProductType.Gerbitsidlar);
 
         public async ValueTask<IQueryable<ProductOne>> RetrieveAllProductOnesFungisetsAsync() =>
             (await this.productOneService.RetrieveAllProductOnesAsync())
-                .Where(product => product.ProductType == ProductType.Фунгицидлар);
+                .Where(product => product.ProductType == ProductType.Fungitsidlar);
 
         public async ValueTask<IQueryable<ProductOne>> RetrieveAllProductOnesInsektorsAsync() =>
             (await this.productOneService.RetrieveAllProductOnesAsync())
-                .Where(product => product.ProductType == ProductType.Инсектоакарацидлар);
+                .Where(product => product.ProductType == ProductType.Insektoakaratsidlar);
 
         public async ValueTask<IQueryable<ProductOne>> RetrieveAllProductOnesDefolsAsync() =>
             (await this.productOneService.RetrieveAllProductOnesAsync())
-                .Where(product => product.ProductType == ProductType.Дефолиантлар);
+                .Where(product => product.ProductType == ProductType.Defoliantlar);
 
         public async ValueTask<IQueryable<ProductOne>> RetrieveAllProductOnesSirtFaolsAsync() =>
             (await this.productOneService.RetrieveAllProductOnesAsync())
-                .Where(product => product.ProductType == ProductType.Сиртфаолмодда);
+                .Where(product => product.ProductType == ProductType.Sirtfaolmodda);
 
         public async ValueTask<IQueryable<ProductOne>> RetrieveAllProductOnesUrugdorisAsync() =>
             (await this.productOneService.RetrieveAllProductOnesAsync())
-                .Where(product => product.ProductType == ProductType.Уруғдорилагичлар);
+                .Where(product => product.ProductType == ProductType.Urugʻdorilagichlar);
 
         public async ValueTask<IQueryable<ProductOne>> RetrieveAllProductOsimlikPresAsync() =>
             (await this.productOneService.RetrieveAllProductOnesAsync())
-                .Where(product => product.ProductType == ProductType.Ўсимликларнипрепаратлар);
+                .Where(product => product.ProductType == ProductType.Oʻsimliklarnipreparatlar);
     }
 }

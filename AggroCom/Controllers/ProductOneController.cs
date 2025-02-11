@@ -109,9 +109,8 @@ namespace AggroCom.Controllers
                     QadogiRu = productOne.QadogiRu,
                     ProductPicture = productOne.ProductPicture,
                     IconUrl = productOne.IconUrl,
-                    ProductType = productOne.ProductType,
-                    AdditionUz = productOne.AdditionUz,
-                    AdditionRu = productOne.AdditionRu
+                    ProductOneName = productOne.ProductOneName,
+                    ProductType = productOne.ProductType
                 };
 
                 ProductOne addedProductOne = await productOneService.AddProductOneAsync(newProductOne);
@@ -224,7 +223,7 @@ namespace AggroCom.Controllers
             }
         }
 
-        [HttpGet("Инсектоакарацидлар")]
+        [HttpGet("Insektoakaratsidlar")]
         public async Task<IActionResult> GetInsektoAkarasAsync()
         {
             try
@@ -239,7 +238,7 @@ namespace AggroCom.Controllers
             }
         }
         
-        [HttpGet("Дефолиантлар")]
+        [HttpGet("Defoliantlar")]
         public async Task<IActionResult> GetDefoliantsAsync()
         {
             try
@@ -254,7 +253,7 @@ namespace AggroCom.Controllers
             }
         }
         
-        [HttpGet("Сиртфаолмодда")]
+        [HttpGet("Sirtfaolmodda")]
         public async Task<IActionResult> GetSirtFaolsAsync()
         {
             try
@@ -269,7 +268,7 @@ namespace AggroCom.Controllers
             }
         }
 
-        [HttpGet("Уруғдорилагичлар")]
+        [HttpGet("Urugʻdorilagichlar")]
         public async Task<IActionResult> GetUrugdoriAsync()
         {
             try
