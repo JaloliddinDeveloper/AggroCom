@@ -4,7 +4,6 @@
 using AggroCom.Models.Foundations.ProductTwos;
 using AggroCom.Services.Foundations.ProductTwos;
 using AggroCom.Services.Processings.ProductTwos;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RESTFulSense.Controllers;
@@ -106,6 +105,7 @@ namespace AggroCom.Controllers
                     SarfRu = productTwo.SarfRu,
                     ProductPicture = productTwo.ProductPicture,
                     ProductIcon = productTwo.ProductIcon,
+                    ProductTwoName = productTwo.ProductTwoName,
                     ProductTwoType = productTwo.ProductTwoType,
                     TableTwos = productTwo.TableTwos
                 };
@@ -152,7 +152,6 @@ namespace AggroCom.Controllers
             {
                 return BadRequest(ex.Message);
             }
-
         }
 
         [HttpDelete("{ProductTwoId}")]
@@ -191,13 +190,13 @@ namespace AggroCom.Controllers
             }
         }
 
-        [HttpGet("Биостимулятор")]
+        [HttpGet("Biostimulyator")]
         public async Task<IActionResult> GetBiosAsync()
         {
             try
             {
                 var bios = await this.ProductTwoProcessingService
-                    .RetrieveAllProductTwosБиостимуляторAsync();
+                    .RetrieveAllProductTwosBiostimulyatorAsync();
 
                 return Ok(bios);
             }
@@ -207,14 +206,13 @@ namespace AggroCom.Controllers
             }
         }
 
-        [HttpGet("Микроэлемент")]
+        [HttpGet("Mikroelement")]
         public async Task<IActionResult> GetMicroelementAsync()
         {
             try
             {
                 var microe = await this.ProductTwoProcessingService
-                    .RetrieveAllProductTwosМикроэлементAsync();
-                    
+                    .RetrieveAllProductTwosMikroelementAsync();
 
                 return Ok(microe);
             }
@@ -224,15 +222,14 @@ namespace AggroCom.Controllers
             }
         }
 
-        [HttpGet("Нпк")]
+        [HttpGet("Npk")]
         public async Task<IActionResult> GetNpkAsync()
         {
             try
             {
-                var npk = await this.ProductTwoProcessingService.RetrieveAllProductTwosНпкAsync();  
+                var npk = await this.ProductTwoProcessingService
+                    .RetrieveAllProductTwosNpkAsync();  
                    
-
-
                 return Ok(npk);
             }
             catch (Exception ex)

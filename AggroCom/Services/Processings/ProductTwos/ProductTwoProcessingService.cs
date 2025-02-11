@@ -15,16 +15,16 @@ namespace AggroCom.Services.Processings.ProductTwos
         public ProductTwoProcessingService(IProductTwoService productTwoService)=>
             this.productTwoService = productTwoService;
 
-        public async ValueTask<IQueryable<ProductTwo>> RetrieveAllProductTwosБиостимуляторAsync()=>
+        public async ValueTask<IQueryable<ProductTwo>> RetrieveAllProductTwosBiostimulyatorAsync()=>
              (await this.productTwoService.RetrieveAllProductTwosAsync())
-                    .Where(product => product.ProductTwoType == ProductTwoType.Биостимулятор);
+                    .Where(product => product.ProductTwoType == ProductTwoType.Biostimulyator);
 
-        public async ValueTask<IQueryable<ProductTwo>> RetrieveAllProductTwosМикроэлементAsync() =>
+        public async ValueTask<IQueryable<ProductTwo>> RetrieveAllProductTwosMikroelementAsync() =>
              (await this.productTwoService.RetrieveAllProductTwosAsync())
-                    .Where(product => product.ProductTwoType == ProductTwoType.Микроэлемент); 
+                    .Where(product => product.ProductTwoType == ProductTwoType.Mikroelement); 
         
-        public async ValueTask<IQueryable<ProductTwo>> RetrieveAllProductTwosНпкAsync() =>
+        public async ValueTask<IQueryable<ProductTwo>> RetrieveAllProductTwosNpkAsync() =>
              (await this.productTwoService.RetrieveAllProductTwosAsync())
-                    .Where(product => product.ProductTwoType == ProductTwoType.Нпк);
+                    .Where(product => product.ProductTwoType == ProductTwoType.Npk);
     }
 }

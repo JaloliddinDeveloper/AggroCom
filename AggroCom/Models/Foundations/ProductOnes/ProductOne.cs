@@ -25,9 +25,8 @@ namespace AggroCom.Models.Foundations.ProductOnes
         public string QadogiRu { get; set; }
         public string IconUrl { get; set; } 
         public string ProductPicture { get; set; }
+        public string ProductOneName { get; set; }
         public ProductType ProductType { get; set; }
-        public string AdditionUz { get; set; }    
-        public string AdditionRu { get; set; }    
         [JsonIgnore]
         public List<TableOne> TableOnes { get; set; }  
     }
