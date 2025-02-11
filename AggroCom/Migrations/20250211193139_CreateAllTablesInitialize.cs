@@ -142,11 +142,9 @@ namespace AggroCom.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     ProductPicture = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    ProductType = table.Column<int>(type: "int", nullable: false),
-                    AdditionUz = table.Column<string>(type: "longtext", nullable: true)
+                    ProductOneName = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    AdditionRu = table.Column<string>(type: "longtext", nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4")
+                    ProductType = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -183,6 +181,8 @@ namespace AggroCom.Migrations
                     ProductPicture = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     ProductIcon = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    ProductTwoName = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     ProductTwoType = table.Column<int>(type: "int", nullable: false)
                 },

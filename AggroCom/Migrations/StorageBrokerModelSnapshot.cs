@@ -142,12 +142,6 @@ namespace AggroCom.Migrations
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("AdditionRu")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("AdditionUz")
-                        .HasColumnType("longtext");
-
                     b.Property<string>("DesRu")
                         .HasColumnType("longtext");
 
@@ -173,6 +167,9 @@ namespace AggroCom.Migrations
                         .HasColumnType("longtext");
 
                     b.Property<string>("PreparatShakliUz")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("ProductOneName")
                         .HasColumnType("longtext");
 
                     b.Property<string>("ProductPicture")
@@ -279,6 +276,9 @@ namespace AggroCom.Migrations
                         .HasColumnType("longtext");
 
                     b.Property<string>("ProductPicture")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("ProductTwoName")
                         .HasColumnType("longtext");
 
                     b.Property<int>("ProductTwoType")
