@@ -26,5 +26,10 @@ namespace AggroCom.Services.Processings.ProductTwos
         public async ValueTask<IQueryable<ProductTwo>> RetrieveAllProductTwosNpkAsync() =>
              (await this.productTwoService.RetrieveAllProductTwosAsync())
                     .Where(product => product.ProductTwoType == ProductTwoType.Npk);
+
+        public async ValueTask<IQueryable<ProductTwo>> RetrieveAllProductTwosOrganikAsync()=>
+             (await this.productTwoService.RetrieveAllProductTwosAsync())
+                    .Where(product => product.ProductTwoType == ProductTwoType.Organik);
+
     }
 }

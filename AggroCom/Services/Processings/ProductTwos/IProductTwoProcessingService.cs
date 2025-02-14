@@ -12,5 +12,6 @@ namespace AggroCom.Services.Processings.ProductTwos
         ValueTask<IQueryable<ProductTwo>> RetrieveAllProductTwosBiostimulyatorAsync();
         ValueTask<IQueryable<ProductTwo>> RetrieveAllProductTwosMikroelementAsync();
         ValueTask<IQueryable<ProductTwo>> RetrieveAllProductTwosNpkAsync();
+        ValueTask<IQueryable<ProductTwo>> RetrieveAllProductTwosOrganikAsync();
     }
 }
