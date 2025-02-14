@@ -237,5 +237,21 @@ namespace AggroCom.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpGet("Oganik")]
+        public async Task<IActionResult> GetOrganikAsync()
+        {
+            try
+            {
+                var organik = await this.ProductTwoProcessingService
+                    .RetrieveAllProductTwosOrganikAsync();
+
+                return Ok(organik);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }
