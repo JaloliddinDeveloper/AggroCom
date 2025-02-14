@@ -95,6 +95,7 @@ namespace AggroCom.Controllers
                     Id = productOne.Id,
                     TitleUz = productOne.TitleUz,
                     TitleRu = productOne.TitleRu,
+                    ProductOneName = productOne.ProductOneName,
                     DesUz = productOne.DesUz,
                     DesRu = productOne.DesRu,
                     DescriptionUz = productOne.DescriptionUz,
@@ -109,8 +110,8 @@ namespace AggroCom.Controllers
                     QadogiRu = productOne.QadogiRu,
                     ProductPicture = productOne.ProductPicture,
                     IconUrl = productOne.IconUrl,
-                    ProductOneName = productOne.ProductOneName,
-                    ProductType = productOne.ProductType
+                    ProductType = productOne.ProductType,
+                    JadvalType = productOne.JadvalType
                 };
 
                 ProductOne addedProductOne = await productOneService.AddProductOneAsync(newProductOne);
