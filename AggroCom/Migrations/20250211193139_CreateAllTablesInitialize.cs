@@ -170,7 +170,7 @@ namespace AggroCom.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     DesRu = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    DescriptionUZ = table.Column<string>(type: "longtext", nullable: true)
+                    DescriptionUz = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     DescriptionRu = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),

@@ -12,7 +12,7 @@ namespace AggroCom.Models.Foundations.ProductTwos
         public string NameRu { get; set; }
         public string DesUz { get; set; }
         public string DesRu { get; set; }
-        public string DescriptionUZ { get; set; }
+        public string DescriptionUz { get; set; }
         public string DescriptionRu { get; set; }
         public string SarfUz { get; set; }
         public string SarfRu { get; set; }
