@@ -99,7 +99,7 @@ namespace AggroCom.Controllers
                     NameRu = productTwo.NameRu,
                     DesUz = productTwo.DesUz,
                     DesRu = productTwo.DesRu,
-                    DescriptionUZ = productTwo.DescriptionUZ,
+                    DescriptionUz = productTwo.DescriptionUz,
                     DescriptionRu = productTwo.DescriptionRu,
                     SarfUz = productTwo.SarfUz,
                     SarfRu = productTwo.SarfRu,

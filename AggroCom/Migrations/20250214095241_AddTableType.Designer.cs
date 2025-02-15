@@ -269,7 +269,7 @@ namespace AggroCom.Migrations
                     b.Property<string>("DescriptionRu")
                         .HasColumnType("longtext");
 
-                    b.Property<string>("DescriptionUZ")
+                    b.Property<string>("DescriptionUz")
                         .HasColumnType("longtext");
 
                     b.Property<string>("NameRu")
