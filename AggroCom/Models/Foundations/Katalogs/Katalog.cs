@@ -11,6 +11,8 @@ namespace AggroCom.Models.Foundations.Katalogs
         public string FileName { get; set; } 
         public string FilePicture { get; set; }
         public string FilePath { get; set; } 
-        public long FileSize { get; set; }  
+        public long FileSize { get; set; }
+        public string NameUz { get; set; }
+        public string NameRu { get; set; }
     }
 }
