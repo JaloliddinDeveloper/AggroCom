@@ -8,6 +8,9 @@ using Microsoft.AspNetCore.Mvc;
 using RESTFulSense.Controllers;
 using System;
 using System.Linq;
+using System.Net.Http;
+using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace AggroCom.Controllers
@@ -34,11 +37,41 @@ namespace AggroCom.Controllers
             {
                 Contact addedContact = await this.storageBroker.InsertContactAsync(contact);
 
+                
+                string botToken = "7640207603:AAEm9BeexRe1GxeUFPQwe9qvBj68_wKG8hU"; // Bot tokenni o'zgartiring
+                string chatId = "6449761136"; 
+                string message = $"📩 Yangi Contact:\n\n" +
+                                 $"👤 Ism: {contact.Name}\n" +
+                                 $"📞 Telefon: {contact.Phone}\n" +
+                                 $"📧 Email: {contact.Email}\n" +
+                                 $"💬 Xabar: {contact.Message}";
+
+                await SendMessageToTelegram(botToken, chatId, message);
+
                 return Created(addedContact);
             }
-            catch(Exception  ex)
+            catch (Exception ex)
             {
-                return BadRequest(ex.Message);  
+                return BadRequest(ex.Message);
+            }
+        }
+
+        private async Task SendMessageToTelegram(string botToken, string chatId, string message)
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                string url = $"https://api.telegram.org/bot{botToken}/sendMessage";
+                var payload = new
+                {
+                    chat_id = chatId,
+                    text = message,
+                    parse_mode = "Markdown"
+                };
+
+                var json = JsonSerializer.Serialize(payload);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                await client.PostAsync(url, content);
             }
         }
 
