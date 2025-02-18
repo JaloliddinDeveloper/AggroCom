@@ -15,11 +15,12 @@ namespace AggroCom.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class FilesController:RESTFulController
+    public class FilesController : RESTFulController
     {
-        private readonly IStorageBroker storageBroker; 
+        private readonly IStorageBroker storageBroker;
         private readonly IKatalogService katalogService;
-        private readonly string uploadsFolder = "/var/www/files";
+        private readonly string uploadsFolder = "/var/www/files"; 
+        private readonly string baseUrl = "http://167.172.69.159:8080"; 
 
         public FilesController(
             IStorageBroker storageBroker,
@@ -31,7 +32,7 @@ namespace AggroCom.Controllers
 
         [HttpPost("upload")]
         [DisableRequestSizeLimit]
-        public async Task<IActionResult> UploadFile(IFormFile picture, IFormFile file)
+        public async Task<IActionResult> UploadFile(IFormFile picture, IFormFile file, string nameUz, string nameRu)
         {
             if (file == null || file.Length == 0)
             {
@@ -48,29 +49,45 @@ namespace AggroCom.Controllers
                 Directory.CreateDirectory(uploadsFolder);
             }
 
-            var mainFilePath = Path.Combine(uploadsFolder, file.FileName);
-            using (var stream = new FileStream(mainFilePath, FileMode.Create))
+            try
             {
-                await file.CopyToAsync(stream);
+                string fileGuid = Guid.NewGuid().ToString();
+                string pictureGuid = Guid.NewGuid().ToString();
+
+                string fileExtension = Path.GetExtension(file.FileName);
+                string pictureExtension = Path.GetExtension(picture.FileName);
+
+                var mainFilePath = Path.Combine(uploadsFolder, fileGuid + fileExtension);
+                var pictureFilePath = Path.Combine(uploadsFolder, pictureGuid + pictureExtension);
+
+                using (var stream = new FileStream(mainFilePath, FileMode.Create))
+                {
+                    await file.CopyToAsync(stream);
+                }
+
+                using (var stream = new FileStream(pictureFilePath, FileMode.Create))
+                {
+                    await picture.CopyToAsync(stream);
+                }
+
+                var fileRecord = new Katalog
+                {
+                    FileName = fileGuid + fileExtension,
+                    FilePath = $"{baseUrl}/files/{fileGuid + fileExtension}", 
+                    FilePicture = $"{baseUrl}/files/{pictureGuid + pictureExtension}", 
+                    FileSize = file.Length,
+                    NameUz = nameUz, 
+                    NameRu = nameRu  
+                };
+
+                await this.storageBroker.InsertKatalogAsync(fileRecord);
+
+                return Created(fileRecord.FilePath, fileRecord);
             }
-
-            var pictureFilePath = Path.Combine(uploadsFolder, picture.FileName);
-            using (var stream = new FileStream(pictureFilePath, FileMode.Create))
+            catch (Exception ex)
             {
-                await picture.CopyToAsync(stream);
+                return StatusCode(500, "Internal server error while processing the files.");
             }
-
-            var fileRecord = new Katalog
-            {
-                FileName = file.FileName,
-                FilePath = $"/files/{file.FileName}", 
-                FilePicture = $"/files/{picture.FileName}", 
-                FileSize = file.Length
-            };
-
-            await this.storageBroker.InsertKatalogAsync(fileRecord);
-
-            return Created(fileRecord);
         }
 
         [HttpGet]
@@ -79,7 +96,6 @@ namespace AggroCom.Controllers
             var files = await this.storageBroker.SelectAllKatalogsAsync();
             return Ok(files);
         }
-
 
         [HttpDelete("{Id}")]
         public async ValueTask<ActionResult<Katalog>> DeleteKatalogByIdAsync(int Id)
