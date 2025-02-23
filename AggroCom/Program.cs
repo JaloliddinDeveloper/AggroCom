@@ -110,7 +110,9 @@ public class Program
         builder.Services.AddTransient<IKatalogService, KatalogService>();
     }
 
-    private static void BrokersMethods(WebApplicationBuilder builder) =>
+    private static void BrokersMethods(WebApplicationBuilder builder)
+    {
         builder.Services.AddTransient<IStorageBroker, StorageBroker>();
+    }
 }
 
