@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AggroCom.Migrations
 {
     [DbContext(typeof(StorageBroker))]
-    [Migration("20250215084242_ChangePropName")]
-    partial class ChangePropName
+    [Migration("20250315095500_CreateAllTablesInitialize")]
+    partial class CreateAllTablesInitialize
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -69,6 +69,12 @@ namespace AggroCom.Migrations
 
                     b.Property<long>("FileSize")
                         .HasColumnType("bigint");
+
+                    b.Property<string>("NameRu")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("NameUz")
+                        .HasColumnType("longtext");
 
                     b.HasKey("Id");
 

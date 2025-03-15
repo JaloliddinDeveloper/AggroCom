@@ -17,13 +17,13 @@ namespace AggroCom.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class ContactController:RESTFulController
+    public class ContactController : RESTFulController
     {
         private readonly IStorageBroker storageBroker;
         private readonly IContactService contactService;
 
         public ContactController(
-            IStorageBroker storageBroker, 
+            IStorageBroker storageBroker,
             IContactService contactService)
         {
             this.storageBroker = storageBroker;
@@ -37,9 +37,9 @@ namespace AggroCom.Controllers
             {
                 Contact addedContact = await this.storageBroker.InsertContactAsync(contact);
 
-                
-                string botToken = "7640207603:AAEm9BeexRe1GxeUFPQwe9qvBj68_wKG8hU"; // Bot tokenni o'zgartiring
-                string chatId = "6449761136"; 
+
+                string botToken = "7640207603:AAEm9BeexRe1GxeUFPQwe9qvBj68_wKG8hU";
+                string chatId = "6449761136";
                 string message = $"📩 Yangi Contact:\n\n" +
                                  $"👤 Ism: {contact.Name}\n" +
                                  $"📞 Telefon: {contact.Phone}\n" +
@@ -84,7 +84,7 @@ namespace AggroCom.Controllers
 
                 return Ok(contacts);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
