@@ -48,7 +48,11 @@ namespace AggroCom.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     FilePath = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    FileSize = table.Column<long>(type: "bigint", nullable: false)
+                    FileSize = table.Column<long>(type: "bigint", nullable: false),
+                    NameUz = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    NameRu = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
@@ -144,7 +148,8 @@ namespace AggroCom.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     ProductOneName = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    ProductType = table.Column<int>(type: "int", nullable: false)
+                    ProductType = table.Column<int>(type: "int", nullable: false),
+                    JadvalType = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
