@@ -15,7 +15,6 @@ namespace AggroCom.Brokers.Storages
         public StorageBroker(IConfiguration configuration)
         {
             this.configuration = configuration;
-            Database.Migrate();
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
