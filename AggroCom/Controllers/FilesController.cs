@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using RESTFulSense.Controllers;
 using System;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace AggroCom.Controllers
@@ -19,8 +20,8 @@ namespace AggroCom.Controllers
     {
         private readonly IStorageBroker storageBroker;
         private readonly IKatalogService katalogService;
-        private readonly string uploadsFolder = "/var/www/files"; 
-        private readonly string baseUrl = "http://165.232.173.157"; 
+        private readonly string uploadsFolder = "/var/www/files";
+        private readonly string baseUrl = "http://165.232.173.157";
 
         public FilesController(
             IStorageBroker storageBroker,
@@ -31,34 +32,39 @@ namespace AggroCom.Controllers
         }
 
         [HttpPost("upload")]
-        [DisableRequestSizeLimit]
-        public async Task<IActionResult> UploadFile(IFormFile picture, IFormFile file, string nameUz, string nameRu)
+        public async Task<IActionResult> UploadFile(
+                     IFormFile picture, IFormFile file,
+                     string nameUz, string nameRu, int Type)
         {
             if (file == null || file.Length == 0)
-            {
                 return BadRequest("Main file not found or empty.");
-            }
 
             if (picture == null || picture.Length == 0)
-            {
                 return BadRequest("Picture file not found or empty.");
-            }
 
-            if (!Directory.Exists(uploadsFolder))
-            {
-                Directory.CreateDirectory(uploadsFolder);
-            }
+            var fileExtension = Path.GetExtension(file.FileName).ToLower();
+            var pictureExtension = Path.GetExtension(picture.FileName).ToLower();
+
+            var allowedExtensions = new[] { ".jpg", ".jpeg", ".png", ".pdf", ".docx", ".xlsx" };
+
+            if (!allowedExtensions.Contains(fileExtension))
+                return BadRequest($"File type '{fileExtension}' is not allowed.");
+
+            if (!allowedExtensions.Contains(pictureExtension))
+                return BadRequest($"Picture type '{pictureExtension}' is not allowed.");
 
             try
             {
+                string uploadPath = uploadsFolder;
+
+                if (!Directory.Exists(uploadPath))
+                    Directory.CreateDirectory(uploadPath);
+
                 string fileGuid = Guid.NewGuid().ToString();
                 string pictureGuid = Guid.NewGuid().ToString();
 
-                string fileExtension = Path.GetExtension(file.FileName);
-                string pictureExtension = Path.GetExtension(picture.FileName);
-
-                var mainFilePath = Path.Combine(uploadsFolder, fileGuid + fileExtension);
-                var pictureFilePath = Path.Combine(uploadsFolder, pictureGuid + pictureExtension);
+                string mainFilePath = Path.Combine(uploadPath, fileGuid + fileExtension);
+                string pictureFilePath = Path.Combine(uploadPath, pictureGuid + pictureExtension);
 
                 using (var stream = new FileStream(mainFilePath, FileMode.Create))
                 {
@@ -73,11 +79,12 @@ namespace AggroCom.Controllers
                 var fileRecord = new Katalog
                 {
                     FileName = fileGuid + fileExtension,
-                    FilePath = $"{baseUrl}/files/{fileGuid + fileExtension}", 
-                    FilePicture = $"{baseUrl}/files/{pictureGuid + pictureExtension}", 
+                    FilePath = $"{baseUrl}/files/{fileGuid + fileExtension}",
+                    FilePicture = $"{baseUrl}/files/{pictureGuid + pictureExtension}",
                     FileSize = file.Length,
-                    NameUz = nameUz, 
-                    NameRu = nameRu  
+                    NameUz = nameUz,
+                    NameRu = nameRu,
+                    Type = Type
                 };
 
                 await this.storageBroker.InsertKatalogAsync(fileRecord);
@@ -86,7 +93,8 @@ namespace AggroCom.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, "Internal server error while processing the files.");
+                var innerMessage = ex.InnerException?.Message ?? ex.Message;
+                return StatusCode(500, $"Internal server error: {innerMessage}");
             }
         }
 
