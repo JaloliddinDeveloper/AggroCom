@@ -21,7 +21,7 @@ namespace AggroCom.Controllers
         private readonly IStorageBroker storageBroker;
         private readonly IPhotoService  photoService;
         private readonly string uploadsFolder = "/var/www/files";
-        private readonly string baseUrl = "http://128.199.173.149:8080";
+        private readonly string baseUrl = "https://fastergo.uz:8080";
 
         public PhotoController(
             IStorageBroker storageBroker, 
