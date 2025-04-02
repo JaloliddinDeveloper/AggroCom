@@ -21,7 +21,7 @@ namespace AggroCom.Controllers
     {
         private readonly IProductTwoService ProductTwoService;
         private readonly string uploadsFolder = "/var/www/files";
-        private readonly string baseUrl = "http://128.199.173.149:8080";
+        private readonly string baseUrl = "https://fastergo.uz:8080";
         private readonly IProductTwoProcessingService ProductTwoProcessingService;
         private readonly IProductTwoTableTwoOrchestrationService
             productTwoTableTwoOrchestrationService;
