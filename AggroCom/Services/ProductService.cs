@@ -6,11 +6,12 @@ using MySql.Data.MySqlClient;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Threading.Tasks; 
+using System.Threading.Tasks;
 
-public class ProductService: IProductService
+public class ProductService : IProductService
 {
     private readonly string _connectionString;
+
     public ProductService(IConfiguration configuration)
     {
         _connectionString = configuration.GetConnectionString("DefaultConnection");
@@ -21,19 +22,20 @@ public class ProductService: IProductService
         using IDbConnection connection = new MySqlConnection(_connectionString);
 
         string sql = @"
-            SELECT 'ProductOne' AS TableName, Id, TitleUz, TitleRu, DescriptionUz, DescriptionRu, ProductPicture
-            FROM ProductOne
-            WHERE LOWER(TitleUz) LIKE @search OR LOWER(TitleRu) LIKE @search 
-               OR LOWER(DescriptionUz) LIKE @search OR LOWER(DescriptionRu) LIKE @search
+            SELECT 'ProductOnes' AS TableName, Id, TitleUz, TitleRu, DescriptionUz, DescriptionRu, ProductPicture
+            FROM ProductOnes
+            WHERE LOWER(TitleUz) LIKE @search OR LOWER(TitleRu) LIKE @search
+                OR LOWER(DescriptionUz) LIKE @search OR LOWER(DescriptionRu) LIKE @search
 
             UNION ALL
 
-            SELECT 'ProductTwo' AS TableName, Id, TitleUz, TitleRu, DescriptionUz, DescriptionRu, ProductPicture
-            FROM ProductTwo
-            WHERE LOWER(TitleUz) LIKE @search OR LOWER(TitleRu) LIKE @search 
-               OR LOWER(DescriptionUz) LIKE @search OR LOWER(DescriptionRu) LIKE @search;";
+            SELECT 'ProductTwos' AS TableName, Id, TitleUz, TitleRu, DescriptionUz, DescriptionRu, ProductPicture
+            FROM ProductTwos
+            WHERE LOWER(TitleUz) LIKE @search OR LOWER(TitleRu) LIKE @search
+                OR LOWER(DescriptionUz) LIKE @search OR LOWER(DescriptionRu) LIKE @search;";
 
         var parameters = new { search = $"%{searchText.ToLower()}%" };
+
         var result = await connection.QueryAsync<ProductSearchResult>(sql, parameters);
 
         return result.ToList();
