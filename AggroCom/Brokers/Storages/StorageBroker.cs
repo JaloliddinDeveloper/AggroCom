@@ -1,6 +1,8 @@
 ﻿// ---------------------------------------------------------------------------------- 
 // Copyright (c) The Standard Organization, a coalition of the Good-Hearted Engineers 
 // ----------------------------------------------------------------------------------
+using AggroCom.Models.Foundations.ProductOnes;
+using AggroCom.Models.Foundations.ProductTwos;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System.Linq;
@@ -17,6 +19,9 @@ namespace AggroCom.Brokers.Storages
             this.configuration = configuration;
             Database.Migrate();
         }
+
+        public DbSet<ProductOne> ProductOne { get; set; }
+        public DbSet<ProductTwo> ProductTwo { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

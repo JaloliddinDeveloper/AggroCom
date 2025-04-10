@@ -2,6 +2,7 @@
 // Copyright (c) The Standard Organization, a coalition of the Good-Hearted Engineers 
 // ----------------------------------------------------------------------------------
 using AggroCom.Models.Foundations.ProductOnes;
+using AggroCom.Services;
 using AggroCom.Services.Foundations.ProductOnes;
 using AggroCom.Services.Orchestrations.ProductOneTableOneOrchestrationServices;
 using AggroCom.Services.Processings.ProductOnes;
@@ -20,6 +21,7 @@ namespace AggroCom.Controllers
     public class ProductOneController : RESTFulController
     {
         private readonly IProductOneService productOneService;
+        private readonly IProductService productService;
         private readonly string uploadsFolder = "/var/www/files";
         private readonly string baseUrl = "https://aag-group.uz:8080";
         private readonly IProductOneProcessingService productOneProcessingService;
@@ -27,12 +29,14 @@ namespace AggroCom.Controllers
             productOneTableOneOrchestrationService;
 
         public ProductOneController(
-            IProductOneService productOneService, 
+            IProductOneService productOneService,
+            IProductService productService,
             IProductOneProcessingService productOneProcessingService, 
             IProductOneTableOneOrchestrationService 
             productOneTableOneOrchestrationService)
         {
             this.productOneService = productOneService;
+            this.productService = productService;
             this.productOneProcessingService = productOneProcessingService;
             this.productOneTableOneOrchestrationService = 
                 productOneTableOneOrchestrationService;
@@ -297,6 +301,24 @@ namespace AggroCom.Controllers
             {
                 return BadRequest(ex.Message);
             }
+        }
+
+        [HttpGet("search")]
+        public async Task<IActionResult> Search(string query)
+        {
+            if (string.IsNullOrEmpty(query))
+            {
+                return BadRequest("Search query cannot be empty.");
+            }
+
+            var results = await this.productService.SearchProductsAsync(query);
+
+            if (results == null || results.Count == 0)
+            {
+                return NotFound("No products found.");
+            }
+
+            return Ok(results); 
         }
     }
 }

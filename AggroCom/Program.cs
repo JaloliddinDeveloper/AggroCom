@@ -20,6 +20,7 @@ using AggroCom.Services.Foundations.Contacts;
 using Microsoft.AspNetCore.Hosting;
 using AggroCom.Services.Foundations.Katalogs;
 using Microsoft.AspNetCore.Http.Features;
+using AggroCom.Services;
 
 public class Program
 {
@@ -113,6 +114,7 @@ public class Program
     private static void BrokersMethods(WebApplicationBuilder builder)
     {
         builder.Services.AddTransient<IStorageBroker, StorageBroker>();
+        builder.Services.AddTransient<IProductService, ProductService>();
     }
 }
 
