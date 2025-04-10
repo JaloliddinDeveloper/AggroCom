@@ -20,9 +20,6 @@ namespace AggroCom.Brokers.Storages
             Database.Migrate();
         }
 
-        public DbSet<ProductOne> ProductOne { get; set; }
-        public DbSet<ProductTwo> ProductTwo { get; set; }
-
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
 
