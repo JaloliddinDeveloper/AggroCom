@@ -1,4 +1,7 @@
-﻿namespace AggroCom.Models
+﻿// ---------------------------------------------------------------------------------- 
+// Copyright (c) The Standard Organization, a coalition of the Good-Hearted Engineers 
+// ----------------------------------------------------------------------------------
+namespace AggroCom.Models
 {
     public class ProductSearchResult
     {
